@@ -1,0 +1,30 @@
+<div class="table-container">
+    <table class="table table-lgiht table-striped">
+        <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">DNI</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Especialidades</th>
+                
+            </tr>
+        </thead>
+        <tbody *ngFor="let esp of especialistas">
+            <tr>
+                @if (esp.habilitado == false) {
+                    <td><button type="button" class="btn btn-outline-primary btn-sm" (click)="habilitarEspecialista(esp.mail)">Habilitar</button></td>
+                }@else {
+                    <td><button type="button" class="btn btn-outline-danger btn-sm" (click)="deshabilitarEspecialista(esp.mail)">Deshabilitar</button></td>
+                }
+                <th>{{esp.dni}}</th>
+                <td>{{esp.nombre}}</td>
+                <td>{{esp.apellido}}</td>
+                <td>{{esp.especialidades}}</td>
+                
+                
+            </tr>
+            
+        </tbody>
+    </table>
+</div>

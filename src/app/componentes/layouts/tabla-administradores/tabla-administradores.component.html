@@ -1,0 +1,20 @@
+<div class="table-container">
+    <table class="table table-lgiht table-striped">
+        <thead>
+            <tr>
+                <th scope="col">DNI</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Obra Social</th>    
+            </tr>
+        </thead>
+        <tbody *ngFor="let admin of administradores">
+            <tr>
+                <th>{{admin.dni}}</th>
+                <td>{{admin.nombre}}</td>
+                <td>{{admin.apellido}}</td>
+                <td>{{admin.edad}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,81 @@
+<div class="fondo">
+  <a class="button" [routerLink]="['/bienvenida']">
+    <div class="button-box">
+      <span class="button-elem">
+        <svg viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"
+          ></path>
+        </svg>
+      </span>
+      <span class="button-elem">
+        <svg viewBox="0 0 46 40">
+          <path
+            d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"
+          ></path>
+        </svg>
+      </span>
+    </div>
+  </a>
+  <div class="container">
+    <div class="heading">LogIn</div>
+    <div class="form">
+      <input required="" class="input" type="email" name="email" id="email" placeholder="E-mail" [(ngModel)]="email">
+      <input required="" class="input" type="password" name="password" id="password" placeholder="Password" [(ngModel)]="password">
+      <span class="forgot-password"><a data-bs-toggle="modal" data-bs-target="#exampleModal">Olvidaste tu contraseña?</a></span>
+      <button class="login-button" type="submit" (click)="LoginUser()">Ingresar</button>
+      @if(flagError){
+        <p class="text-center text-danger">{{msjError}}</p>
+      } 
+    </div>
+  </div>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Reestablecer Contraseña</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Estas seguro que deseas reestablecer tu contraseña?. <br>
+          En caso que asi sea, verifica tu casilla de correo.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Rechazar</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="resetPassword()">Aceptar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="example-button-row">
+    <button mat-fab [matMenuTriggerFor]="menu" aria-label="Example icon button with a menu icon" class="fab-button">
+      <mat-icon>groups</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" class="fab-menu">
+      <button mat-menu-item (click)="Rellenar('xaganig856@luravell.com', '123456')">
+        <img src="https://firebasestorage.googleapis.com/v0/b/tp-clinica-laboiv.appspot.com/o/fotos%2F1718646774913-lebron2.jpg?alt=media&token=cc50250f-ff2f-4a2e-83b2-7334d14193ba" alt="" class="imgRedonda">
+        <span> Paciente 1</span>
+      </button>
+      <button mat-menu-item (click)="Rellenar('dovexa9158@exeneli.com', '123456')">
+        <img src="https://firebasestorage.googleapis.com/v0/b/tp-clinica-laboiv.appspot.com/o/fotos%2F1718637160838-messi.jpg?alt=media&token=4c22d714-2829-417a-92a4-57d7a3f5253b" alt="" class="imgRedonda">
+        <span> Paciente 2</span>
+      </button>
+      <button mat-menu-item (click)="Rellenar('gihovor503@exeneli.com', '123456')">
+        <img src="https://firebasestorage.googleapis.com/v0/b/tp-clinica-laboiv.appspot.com/o/fotos%2F1718637284678-alcaraz2.jpg?alt=media&token=9357e158-e3ff-4be3-bec4-fdd15b7c851b" alt="" class="imgRedonda">
+        <span> Paciente 3</span>
+      </button>
+      <button mat-menu-item (click)="Rellenar('vacalov637@lapeds.com', '123456')">
+        <img src="https://firebasestorage.googleapis.com/v0/b/tp-clinica-laboiv.appspot.com/o/fotos%2F1718567101219-especialista1.jpg?alt=media&token=78cef483-5228-4166-9162-5797125c8eba" alt="" class="imgRedonda">
+        <span>  Especialista 1</span>
+      </button>
+      <button mat-menu-item (click)="Rellenar('calira6297@luravell.com', '123456')">
+        <img src="https://firebasestorage.googleapis.com/v0/b/tp-clinica-laboiv.appspot.com/o/fotos%2F1718647527321-especialista2.jpg?alt=media&token=5731b708-018c-40d9-a7ae-10738816a0b8" alt="" class="imgRedonda">
+        <span>  Especialista 2</span>
+      </button>
+      <button mat-menu-item (click)="Rellenar('nifig12644@exeneli.com', '123456')">
+        <img src="https://firebasestorage.googleapis.com/v0/b/tp-clinica-laboiv.appspot.com/o/fotos%2F1718656869825-elonmusk.jfif?alt=media&token=ba9a4df4-3800-4712-89ad-ceb5424ef5df" alt="" class="imgRedonda">
+        <span>Admin</span>
+      </button>
+    </mat-menu>
+  </div>
+</div>

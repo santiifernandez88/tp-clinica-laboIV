@@ -1,0 +1,119 @@
+<div class="fondo">
+    <a class="button" [routerLink]="['/bienvenida']">
+        <div class="button-box">
+          <span class="button-elem">
+            <svg viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"
+              ></path>
+            </svg>
+          </span>
+          <span class="button-elem">
+            <svg viewBox="0 0 46 40">
+              <path
+                d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"
+              ></path>
+            </svg>
+          </span>
+        </div>
+      </a>
+    <div class="container px-4 py-4" id="featured-3">
+        <h1 class="pb-2 border-bottom">Registro Paciente</h1>
+        <div class="row g-3 py-3 row-cols-1 d-flex justify-content-between">
+            <div class="col-12">
+                <form [formGroup]="formulario" (ngSubmit)="crearPaciente()" class="formulario container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-md-6 form-floating form-control-group p-1 mb-2">
+                            <input type="text" class="form-control small-input" id="nombre" formControlName="nombre">
+                            <label class="form-label small-label" for="nombre">Nombre</label>
+                            <span *ngIf="isValidField('nombre')" class="form-text text-danger small-error">
+                                {{getFieldError('nombre')}}
+                            </span>
+                        </div>
+                        <div class="col-md-6 form-floating form-control-group p-1 mb-2">
+                            <input type="text" class="form-control small-input" id="apellido" formControlName="apellido">
+                            <label class="form-label small-label" for="apellido">Apellido</label>
+                            <span *ngIf="isValidField('apellido')" class="form-text text-danger small-error">
+                                {{getFieldError('apellido')}}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-md-6 form-floating form-control-group p-1 mb-2">
+                            <input type="text" class="form-control small-input" id="edad" formControlName="edad">
+                            <label class="form-label small-label" for="edad">Edad</label>
+                            <span *ngIf="isValidField('edad')" class="form-text text-danger small-error">
+                                {{getFieldError('edad')}}
+                            </span>
+                        </div>
+                        <div class="col-md-6 form-floating form-control-group p-1 mb-2">
+                            <input type="text" class="form-control small-input" id="dni" formControlName="dni">
+                            <label class="form-label small-label" for="dni">DNI</label>
+                            <span *ngIf="isValidField('dni')" class="form-text text-danger small-error">
+                                {{getFieldError('dni')}}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-md-6 form-floating form-control-group p-1 mb-2">
+                            <input type="email" class="form-control small-input" id="mail" formControlName="mail">
+                            <label class="form-label small-label" for="mail">Mail</label>
+                            <span *ngIf="isValidField('mail')" class="form-text text-danger small-error">
+                                {{getFieldError('mail')}}
+                            </span>
+                        </div>
+                        <div class="col-md-6 form-floating form-control-group p-1 mb-2">
+                            <input type="password" class="form-control small-input" id="password" formControlName="password">
+                            <label class="form-label small-label" for="password">Contraseña</label>
+                            <span *ngIf="isValidField('password')" class="form-text text-danger small-error">
+                                {{getFieldError('password')}}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-md-6 form-floating form-control-group p-1 mb-2">
+                            <input type="file" class="form-control small-input" id="fotoPerfilUno" formControlName="fotoPerfilUno" (change)="uploadImageUno($event)">
+                            <label class="form-label small-label" for="fotoPerfil1">Primera foto de perfil</label>
+                            <span *ngIf="isValidField('fotoPerfilUno')" class="form-text text-danger small-error">
+                                {{getFieldError('fotoPerfilUno')}}
+                            </span>
+                        </div>
+                        <div class="col-md-6 form-floating form-control-group p-1 mb-2">
+                            <input type="file" class="form-control small-input" id="fotoPerfilDos" formControlName="fotoPerfilDos" (change)="uploadImageDos($event)">
+                            <label class="form-label small-label" for="fotoPerfil2">Segunda foto de perfil</label>
+                            <span *ngIf="isValidField('fotoPerfilDos')" class="form-text text-danger small-error">
+                                {{getFieldError('fotoPerfilDos')}}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-md-6 form-floating form-control-group p-1 mb-2">
+                            <select class="form-control small-input" id="obraSocial" formControlName="obraSocial">
+                                <option value="" disabled selected>Seleccione su obra social</option>
+                                <option *ngFor="let obra of obrasSociales" [value]="obra">{{obra}}</option>
+                            </select>
+                            <label class="form-label small-label" for="obraSocial">Obra Social</label>
+                            <span *ngIf="isValidField('obraSocial')" class="form-text text-danger small-error">
+                                {{getFieldError('obraSocial')}}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 col-8 mx-auto mb-2">
+                        <button type="submit" class="btn btn-primary btn-sm">Registrarse</button>
+                    </div>
+                    <div class="spinner-border text-primary" role="status" *ngIf="loading != false">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+
+                    <p *ngIf="msjExito != undefined" class="alert alert-success mb-auto">{{msjExito}}</p>
+                    <p *ngIf="msjError != '' && msjExito == undefined" class="alert alert-danger mb-auto">{{msjError}}</p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

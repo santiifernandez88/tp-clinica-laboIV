@@ -1,0 +1,74 @@
+<body class="fondo">
+  <main>
+    <div class="container py-4">
+      <header class="pb-3 mb-4 border-bottom">
+        <a [routerLink]="['']" routerLinkActive="router-link-active" class="d-flex align-items-center text-dark text-decoration-none">
+          <span class="fs-3"><img src="../../../favicon.ico" alt="icono"> Clinica Fernández</span>
+        </a>
+      </header>
+
+      <div class="p-3 mb-4 bg-body-tertiary rounded-3">
+        <div class="container-fluid py-2">
+          <h1 class="d-flex justify-content-center border-bottom">¿Qué es Clinica Fernández?</h1>
+          <div class="tabla">
+            <p class="p-header">Nosotros somos salud, en esta clinica podemos garantizarte todo aquello que sea lo mejor para vos.
+              Empezando desde la gestión del paciente, hasta la confortabilidad del trabajo del especialista.
+              En nuestra clinica vas a sentirte como en casa.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex flex-column align-items-center">
+        <div class="p-5 bg-body-tertiary border rounded-3 mb-4 botones">
+          <button data-bs-toggle="modal" data-bs-target="#pacienteModal" class="btn-img">
+            <img src="../../../assets/bienvenida/paciente.png" alt="" class="img-fluid imgPaciente">
+          </button>
+        </div>
+        <div class="p-5 bg-body-tertiary border rounded-3 botones">
+          <button data-bs-toggle="modal" data-bs-target="#especialistaModal" class="btn-img">
+            <img src="../../../assets/bienvenida/equipo-medico.png" alt="" class="img-fluid imgEquipoMedico">
+          </button>
+        </div>
+      </div>
+
+      <div class="modal fade" id="pacienteModal" tabindex="-1" aria-labelledby="pacienteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="pacienteModalLabel">Pacientes</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Bienvenido paciente!! <br>
+              ¿Qué desea hacer?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="goTo('registroPaciente')">Registrarse</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="goTo('login')">Iniciar Sesión</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="especialistaModal" tabindex="-1" aria-labelledby="especialistaModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="especialistaModalLabel">Especialistas</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Bienvenido especialista!! <br>
+              ¿Qué desea hacer?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="goTo('registroEspecialista')">Registrarse</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="goTo('login')">Iniciar Sesión</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>

@@ -1,0 +1,14 @@
+.table-container {
+    width: 100%;
+    overflow-x: fixed;
+}
+
+.table {
+    width: 100%;
+    table-layout: auto;
+}
+
+.table th, .table td {
+    padding-right: 100px;
+    text-align: left;
+}

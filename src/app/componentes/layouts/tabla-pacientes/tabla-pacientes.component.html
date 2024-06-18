@@ -1,0 +1,20 @@
+<div class="table-container">
+    <table class="table table-lgiht table-striped">
+        <thead>
+            <tr>
+                <th scope="col">DNI</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">Obra Social</th>    
+            </tr>
+        </thead>
+        <tbody *ngFor="let pac of pacientes">
+            <tr>
+                <th>{{pac.dni}}</th>
+                <td>{{pac.nombre}}</td>
+                <td>{{pac.apellido}}</td>
+                <td>{{pac.obraSocial}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

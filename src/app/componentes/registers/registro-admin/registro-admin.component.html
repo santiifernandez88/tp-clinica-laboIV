@@ -1,0 +1,75 @@
+<div class="col-7">
+    <form [formGroup]="formulario" (ngSubmit)="crearAdmin()" class="formulario container-fluid">
+        
+        <div class="row mb-3">
+            <div class="col form-floating form-control-group p-2 mb-3 mr-3">
+                <input type="text" class="form-control" id="nombre" formControlName="nombre">
+                <label class="form-label" for="nombre">Nombre</label>
+                <span *ngIf="isValidField('nombre')" class="form-text text-danger">
+                    {{getFieldError('nombre')}}
+                </span>
+            </div>
+            <div class="col form-floating form-control-group p-2 mb-3">
+                <input type="text" class="form-control" id="apellido" formControlName="apellido">
+                <label class="form-label" for="apellido">Apellido</label>
+                <span *ngIf="isValidField('apellido')" class="form-text text-danger">
+                    {{getFieldError('apellido')}}
+                </span>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col form-floating form-control-group p-2 mb-3 mr-3">
+                <input type="text" class="form-control" id="edad" formControlName="edad">
+                <label class="form-label" for="edad">Edad</label>
+                <span *ngIf="isValidField('edad')" class="form-text text-danger">
+                    {{getFieldError('edad')}}
+                </span>
+            </div>
+            <div class="col form-floating form-control-group p-2 mb-3">
+                <input type="text" class="form-control" id="dni" formControlName="dni">
+                <label class="form-label" for="dni">DNI</label>
+                <span *ngIf="isValidField('dni')" class="form-text text-danger">
+                    {{getFieldError('dni')}}
+                </span>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col form-floating form-control-group p-2 mb-3 mr-3">
+                <input type="email" class="form-control" id="mail" formControlName="mail">
+                <label class="form-label" for="mail">Mail</label>
+                <span *ngIf="isValidField('mail')" class="form-text text-danger">
+                    {{getFieldError('mail')}}
+                </span>
+            </div>
+            <div class="col form-floating form-control-group p-2 mb-3">
+                <input type="password" class="form-control" id="password" formControlName="password"> <!-- Changed type to password -->
+                <label class="form-label" for="password">Contraseña</label>
+                <span *ngIf="isValidField('password')" class="form-text text-danger">
+                    {{getFieldError('password')}} <!-- Fixed typo -->
+                </span>
+            </div>
+        </div>
+
+        <div class="form-floating form-control-group p-2 mb-5">
+            <input type="file" class="form-control" id="fotoPerfil" formControlName="fotoPerfil" (change)="uploadImage($event)">
+            <label class="form-label" for="fotoPerfil">Foto de perfil</label>
+            <span *ngIf="isValidField('fotoPerfil')" class="form-text text-danger">
+                {{getFieldError('fotoPerfil')}}
+            </span>
+        </div>
+
+        <div class="d-grid gap-2 col-8 mx-auto mb-3">
+            <button type="submit" class="btn btn-primary">Registrarse</button>
+        </div>
+        <div class="spinner-border text-primary" role="status" *ngIf="loading != false">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+
+        <p *ngIf="msjExito != undefined" class="alert alert-success mb-auto">{{msjExito}}</p>
+        <p *ngIf="msjError != '' && msjExito == undefined" class="alert alert-danger mb-auto">{{msjError}}</p>
+    </form>
+</div>
+
+
