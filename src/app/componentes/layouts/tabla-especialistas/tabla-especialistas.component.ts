@@ -44,6 +44,7 @@ export class TablaEspecialistasComponent {
         if(esp.mail == email){
           esp.habilitado = true;
           this.especialistaService.updateEspecialista(esp);
+          return
         }
       });
     });
@@ -55,6 +56,7 @@ export class TablaEspecialistasComponent {
         if(esp.mail == email){
           esp.habilitado = false;
           this.especialistaService.updateEspecialista(esp);
+          return
         }
       });
     });
