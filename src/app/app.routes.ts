@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { logueadoGuard } from './guards/logueado.guard';
+import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/bienvenida', pathMatch: "full" },
@@ -36,7 +37,8 @@ export const routes: Routes = [
         import('./componentes/admin/admin.component').then(
             (c) => c.AdminComponent
         ),
-      title: 'Usuarios'
+      title: 'Usuarios',
+      canActivate: [adminGuard]
     },
     { path: 'home',
       loadComponent: () => 

@@ -12,6 +12,7 @@ import { PacienteService } from '../../services/paciente.service';
 import { Admin } from '../../interfaces/admin';
 import { Especialista } from '../../interfaces/especialista';
 import { UserService } from '../../services/user.service';
+import { Auth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-login',
@@ -29,54 +30,71 @@ export class LoginComponent {
   msjError: string = "";
   resetPasswordMessage : string = "";
   modalEnable : boolean = false;
+  sendingRequest!: boolean;
+  especialistaHabilitado : boolean = true
 
-  constructor(private router: Router, public auth: AuthService, private adminService: AdminService, private userService: UserService) {}
+  constructor(private router: Router, public auth: AuthService, private realAuth : Auth, private especialistaService: EspecialistaService, private userService: UserService) {}
 
-  LoginUser() {
-    console.log(this.email);
-    console.log(this.password);
-    this.auth.Login(this.email, this.password).then((res) => {
-      if (res.user.email !== null){
-        this.adminService.obtenerAdministradores().subscribe( respuesta => {
-          respuesta.forEach((adm: Admin)=> {
-            if(adm.mail == res.user.email){
-              this.auth.userActive = res.user
-            }
-          })
-        })
-        if(res.user.emailVerified){
-          this.auth.userActive = res.user;
-        }
-        this.goTo("home")
-        this.flagError = false;
-        this.userService.rolLogin();
-      }
-      
-    }).catch((e) => {
-
-      this.flagError = true;
-
-      switch(e.code) {
-        case "auth/invalid-email":
-          this.msjError = "Email invalido";
-          break;
-        case "auth/invalid-credential":
-          this.msjError = "El email o contraseña son incorrectos";
-          break;
-        case "auth/missing-password":
-          this.msjError = "Por favor introduzca una contraseña";
-          break;
-        case "auth/too-many-requests":
-          this.msjError = "Por favor ingrese bien sus datos";
-          break;
-        default:
-          if (e.message === 'Email not verified') {
-            this.msjError = 'Por favor, verifica tu correo electrónico antes de iniciar sesión.';
+  async LoginUser() {
+    if(!this.sendingRequest){
+      this.sendingRequest = true;
+      this.auth.Login(this.email, this.password).then((res) => {
+        if (res.user && res.user.email !== null){
+          if(res.user.emailVerified){
+           
+            if(this.userService.especialista){
+              if(this.especialistaHabilitado){
+                this.auth.userActive = res.user;
+                this.userService.currentUser.mail = this.email;
+                this.userService.currentUser.password = this.password;
+              } else{
+                this.flagError = true;
+                this.msjError = 'Por favor, espera a que un admin habilite tu correo electrónico antes de iniciar sesión.';
+                this.realAuth.signOut();
+              }       
+            } else{
+              this.auth.userActive = res.user;
+              this.userService.currentUser.mail = this.email;
+              this.userService.currentUser.password = this.password;
+            } 
           } else {
-            this.msjError = "Error desconocido: " + e.message;
+            this.flagError = true;
+            this.msjError = 'Por favor, verifica tu correo electrónico antes de iniciar sesión.';
+            this.realAuth.signOut();
           }
-      }
-    });
+          this.goTo("home");
+          console.log("LOCAL USER: ");
+          console.log(this.auth.userActive);
+          console.log("AUTH USER: ");
+          console.log(this.realAuth.currentUser);
+          
+        }
+        this.sendingRequest = false;
+      }).catch((e) => {
+  
+        this.flagError = true;
+  
+        switch(e.code) {
+          case "auth/invalid-email":
+            this.msjError = "Email invalido";
+            break;
+          case "auth/invalid-credential":
+            this.msjError = "El email o contraseña son incorrectos";
+            break;
+          case "auth/missing-password":
+            this.msjError = "Por favor introduzca una contraseña";
+            break;
+          case "auth/too-many-requests":
+            this.msjError = "Por favor ingrese bien sus datos";
+            break;
+          default:
+            this.msjError = "Por favor ingrese bien sus datos";
+            break;
+
+        }
+        this.sendingRequest = false;
+      });
+    }
   }
 
   Rellenar(email : string, password : string) {

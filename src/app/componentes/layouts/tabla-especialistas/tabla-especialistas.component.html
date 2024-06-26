@@ -13,9 +13,9 @@
         <tbody *ngFor="let esp of especialistas">
             <tr>
                 @if (esp.habilitado == false) {
-                    <td><button type="button" class="btn btn-outline-primary btn-sm" (click)="habilitarEspecialista(esp.mail)">Habilitar</button></td>
+                    <td><button type="button" class="btn btn-outline-primary btn-sm" (click)="habilitarEspecialista(esp)">Habilitar</button></td>
                 }@else {
-                    <td><button type="button" class="btn btn-outline-danger btn-sm" (click)="deshabilitarEspecialista(esp.mail)">Deshabilitar</button></td>
+                    <td><button type="button" class="btn btn-outline-danger btn-sm" (click)="deshabilitarEspecialista(esp)">Deshabilitar</button></td>
                 }
                 <th>{{esp.dni}}</th>
                 <td>{{esp.nombre}}</td>

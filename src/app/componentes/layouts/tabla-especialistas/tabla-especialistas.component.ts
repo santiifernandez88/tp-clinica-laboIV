@@ -38,27 +38,13 @@ export class TablaEspecialistasComponent {
     })
   }
 
-  habilitarEspecialista(email: string){
-    this.especialistaService.obtenerEspecialistas().subscribe( respuesta => {
-      respuesta.forEach((esp: Especialista)=> {
-        if(esp.mail == email){
-          esp.habilitado = true;
-          this.especialistaService.updateEspecialista(esp);
-          return
-        }
-      });
-    });
+  habilitarEspecialista(especialista: Especialista){
+    especialista.habilitado = true;
+    this.especialistaService.updateEspecialista(especialista);
   }
 
-  deshabilitarEspecialista(email: string){
-    this.especialistaService.obtenerEspecialistas().subscribe( respuesta => {
-      respuesta.forEach((esp: Especialista)=> {
-        if(esp.mail == email){
-          esp.habilitado = false;
-          this.especialistaService.updateEspecialista(esp);
-          return
-        }
-      });
-    });
+  deshabilitarEspecialista(especialista: Especialista){
+    especialista.habilitado = false;
+    this.especialistaService.updateEspecialista(especialista);
   }
 }

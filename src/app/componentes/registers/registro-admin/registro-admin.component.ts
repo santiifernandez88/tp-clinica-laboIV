@@ -5,6 +5,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Admin } from '../../../interfaces/admin';
 import { AdminService } from '../../../services/admin.service';
 import { CommonModule } from '@angular/common';
+import { Auth } from '@angular/fire/auth';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-registro-admin',
@@ -21,7 +23,7 @@ export class RegistroAdminComponent {
   public msjExito!: string;
   public loading : boolean = false;
 
-  constructor(private auth: AuthService, private imgService: ImagenService, private admService: AdminService) { }
+  constructor(private auth: AuthService, private imgService: ImagenService, private admService: AdminService, private userService : UserService, private authReal : Auth) { }
 
   ngOnInit(): void {
     this.formulario = new FormGroup({
@@ -33,7 +35,6 @@ export class RegistroAdminComponent {
       password: new FormControl('', [Validators.minLength(6), Validators.required]),
       fotoPerfil: new FormControl('', [Validators.required]),
     });
-
   }
   uploadImage(foto: any) {
     this.file = foto.target.files[0];
@@ -86,10 +87,11 @@ export class RegistroAdminComponent {
         img: img,
       } as Admin;
 
-    this.auth.RegisterAdmin(this.admin.mail, this.admin.password).then(async res => {
+    this.auth.Register(this.admin.mail, this.admin.password).then(async res => {
       if (!res) {
         
       } else {
+        
         if(this.file && this.file.name){
           this.imgService.subirImg(this.file).then(path => {
             this.admin!.img = path;
@@ -98,6 +100,8 @@ export class RegistroAdminComponent {
               this.loading = false;
               setTimeout(() => {
                 this.formulario.reset();
+                this.authReal.signOut();
+                this.auth.Login(this.userService.currentUser.mail, this.userService.currentUser.password);
               }, 3000);
                   
             });;

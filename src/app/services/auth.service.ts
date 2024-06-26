@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, onAuthStateChanged } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -9,7 +9,7 @@ export class AuthService {
 
   userActive : any;
 
-  constructor(private auth: Auth, private router: Router) { }
+  constructor(private auth: Auth, private router: Router) {}
   
 
   async Login(email : string, password : string){
@@ -19,11 +19,6 @@ export class AuthService {
   async Register(email : string, password : string) { 
     const res = await createUserWithEmailAndPassword(this.auth, email, password);
     await sendEmailVerification(res.user);
-    return res.user
-  }
-
-  async RegisterAdmin(email : string, password : string) { 
-    const res = await createUserWithEmailAndPassword(this.auth, email, password);
     return res.user
   }
 

@@ -28,7 +28,6 @@ export class NavbarComponent {
   ) {}
 
   CloseSession() {
-    this.userService.rolLogout();
     this.auth.logout();
     this.router.navigateByUrl("login");
   }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, doc, setDoc, updateDoc } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, doc, getDocs, limit, query, setDoc, updateDoc, where } from '@angular/fire/firestore';
 import { Especialista } from '../interfaces/especialista';
 import { Observable } from 'rxjs';
 
@@ -30,5 +30,7 @@ export class EspecialistaService {
     const docs = doc(this.firestore, `especialistas/${especialista.dni}`);
     updateDoc(docs, { habilitado: especialista.habilitado });
   }
+
+ 
 
 }

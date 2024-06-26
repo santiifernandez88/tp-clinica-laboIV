@@ -23,7 +23,7 @@
       <input required="" class="input" type="email" name="email" id="email" placeholder="E-mail" [(ngModel)]="email">
       <input required="" class="input" type="password" name="password" id="password" placeholder="Password" [(ngModel)]="password">
       <span class="forgot-password"><a data-bs-toggle="modal" data-bs-target="#exampleModal">Olvidaste tu contraseña?</a></span>
-      <button class="login-button" type="submit" (click)="LoginUser()">Ingresar</button>
+      <button class="login-button" type="submit" (click)="LoginUser()" [disabled]="sendingRequest || auth.userActive!=null">Ingresar</button>
       @if(flagError){
         <p class="text-center text-danger">{{msjError}}</p>
       } 
@@ -72,8 +72,8 @@
         <img src="https://firebasestorage.googleapis.com/v0/b/tp-clinica-laboiv.appspot.com/o/fotos%2F1718647527321-especialista2.jpg?alt=media&token=5731b708-018c-40d9-a7ae-10738816a0b8" alt="" class="imgRedonda">
         <span>  Especialista 2</span>
       </button>
-      <button mat-menu-item (click)="Rellenar('lehelo4099@gawte.com', '123456')">
-        <img src="https://firebasestorage.googleapis.com/v0/b/tp-clinica-laboiv.appspot.com/o/fotos%2F1718656869825-elonmusk.jfif?alt=media&token=ba9a4df4-3800-4712-89ad-ceb5424ef5df" alt="" class="imgRedonda">
+      <button mat-menu-item (click)="Rellenar('danicox396@exeneli.com', '123456')">
+        <img src="https://firebasestorage.googleapis.com/v0/b/tp-clinica-laboiv.appspot.com/o/fotos%2F1718828516266-elonmusk.jfif?alt=media&token=0e95e997-d935-4c56-9fc1-d024fd614dcd" alt="" class="imgRedonda">
         <span>Admin</span>
       </button>
     </mat-menu>
