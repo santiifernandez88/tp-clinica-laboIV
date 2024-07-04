@@ -80,43 +80,49 @@ export class RegistroPacienteComponent {
     if (this.formulario.invalid) {
       this.formulario.markAllAsTouched();
       console.log("invalid form");
+      this.showCaptchaError = true;
       return;
+    }else{
+      if(this.captcha){
+        this.loading = true;
+        console.log(this.formulario.value);
+        this.paciente = this.formulario.value;
+        const { nombre, apellido, dni, edad, mail, password, fotoPerfilUno, fotoPerfilDos, obraSocial } = this.formulario.value;
+        this.paciente =
+          {
+            nombre: nombre,
+            apellido: apellido,
+            edad: edad,
+            dni: dni,
+            obraSocial: obraSocial,
+            mail: mail,
+            password: password,
+            fotoPerfilUno: fotoPerfilUno,
+            fotoPerfilDos: fotoPerfilDos,
+      
+          } ;
+    
+          this.auth.Register(this.paciente.mail, this.paciente.password).then(res => {
+            if (res == null) {
+              // Manejar error de registro aquí
+            } else {
+              this.registrarPaciente();
+            }  
+          }).catch(error => {
+            console.error('Error during registration', error);
+            
+            switch(error.code) {
+              case 'auth/email-already-in-use':
+                this.msjError = "El email esta en uso";
+                break;
+            }
+            this.loading = false; // Terminar carga
+          });;
+      } else{
+        this.showCaptchaError = true;
+        this.msjError = "Tienes que verificar que no eres un robot";
+      }
     }
-
-    this.loading = true;
-    console.log(this.formulario.value);
-    this.paciente = this.formulario.value;
-    const { nombre, apellido, dni, edad, mail, password, fotoPerfilUno, fotoPerfilDos, obraSocial } = this.formulario.value;
-    this.paciente =
-      {
-        nombre: nombre,
-        apellido: apellido,
-        edad: edad,
-        dni: dni,
-        obraSocial: obraSocial,
-        mail: mail,
-        password: password,
-        fotoPerfilUno: fotoPerfilUno,
-        fotoPerfilDos: fotoPerfilDos,
-  
-      } ;
-
-      this.auth.Register(this.paciente.mail, this.paciente.password).then(res => {
-        if (res == null) {
-          // Manejar error de registro aquí
-        } else {
-          this.registrarPaciente();
-        }  
-      }).catch(error => {
-        console.error('Error during registration', error);
-        
-        switch(error.code) {
-          case 'auth/email-already-in-use':
-            this.msjError = "El email esta en uso";
-            break;
-        }
-        this.loading = false; // Terminar carga
-      });;
   }
 
   async registrarPaciente() {

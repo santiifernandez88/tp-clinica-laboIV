@@ -104,7 +104,7 @@
                     </div>
 
                     <div class="d-grid gap-2 col-8 mx-auto mb-2">
-                        <button type="submit" class="btn btn-primary btn-sm">Registrarse</button>
+                        <button type="submit" class="btn btn-primary btn-sm" [disabled]="showCaptchaError">Registrarse</button>
                     </div>
                     <div class="spinner-border text-primary" role="status" *ngIf="loading != false">
                         <span class="visually-hidden">Loading...</span>
