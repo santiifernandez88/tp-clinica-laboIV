@@ -1,0 +1,47 @@
+<div class="container" *ngIf="jornada; else elseBlock2">
+
+    <div>
+        <nav aria-label="...">
+            <ul class="pagination pagination-sm">
+                <li class="page-item" (click)="changeSelect('lunes')" [ngClass]="selected === 'lunes' ? 'active' : ''">
+                    <span class="page-link">Lunes</span>
+                </li>
+                <li class="page-item" (click)="changeSelect('martes')" [ngClass]="selected === 'martes' ? 'active' : ''">
+                    <span class="page-link">Martes</span>
+                </li>
+                <li class="page-item" (click)="changeSelect('miercoles')" [ngClass]="selected === 'miercoles' ? 'active' : ''">
+                    <span class="page-link">Miercoles</span>
+                </li>
+                <li class="page-item" (click)="changeSelect('jueves')" [ngClass]="selected === 'jueves' ? 'active' : ''">
+                    <span class="page-link">Jueves</span>
+                </li>
+                <li class="page-item" (click)="changeSelect('viernes')" [ngClass]="selected === 'viernes' ? 'active' : ''">
+                    <span class="page-link">Viernes</span>
+                </li>
+                <li class="page-item" (click)="changeSelect('sabado')" [ngClass]="selected === 'sabado' ? 'active' : ''">
+                    <span class="page-link">Sabado</span>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="py-3">
+        <div *ngIf="jornada.dias[selected].length > 0; else elseBlock">
+            <div class="scrollable-container">
+                <div *ngFor="let horario of jornada.dias[selected]">
+                    <div class="row ">
+                        <div class="col border border-primary rounded-start">{{horario.hora}}</div>
+                        <div class="col border border-primary rounded-end">Consultorio: {{horario.nroConsultorio}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ng-template #elseBlock>
+            <span>No tiene horarios en este dia</span>
+        </ng-template>
+    </div>
+</div>
+
+<ng-template #elseBlock2>
+    <span>No tiene ningun horario</span>
+</ng-template>

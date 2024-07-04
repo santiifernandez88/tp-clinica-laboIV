@@ -11,7 +11,7 @@ import { Especialidades } from '../../../interfaces/especialidades';
   templateUrl: './tabla-especialidades.component.html',
   styleUrls: ['./tabla-especialidades.component.css']
 })
-export class TablaEspecialidadesComponent implements OnInit{
+export class TablaEspecialidadesComponent implements OnInit {
 
   public especialidades: Especialidades[] = [];
   public rowsClicked: number[] = [];
@@ -20,7 +20,7 @@ export class TablaEspecialidadesComponent implements OnInit{
   @ViewChild('especialidadInput') especialidadInput!: ElementRef;
   private subscription: Subscription = new Subscription();
 
-  constructor(private especialidadService: EspecialidadesService){}
+  constructor(private especialidadService: EspecialidadesService) {}
 
   ngOnInit(): void {
     this.subscription.add(
@@ -46,9 +46,10 @@ export class TablaEspecialidadesComponent implements OnInit{
     } else {
       this.rowsClicked.push(idx);
     }
-    this.especialidadSeleccionado.emit([obra.nombre]);
-    console.log([obra.nombre]);
-    console.log("rowClicked: " + this.rowsClicked);
+    const selectedEspecialidades = this.rowsClicked.map(i => this.especialidades[i].nombre);
+    this.especialidadSeleccionado.emit(selectedEspecialidades);
+    console.log("Especialidades seleccionadas: ", selectedEspecialidades);
+    console.log("Row indices seleccionados: ", this.rowsClicked);
   }
 
   agregarEspecialidad() {

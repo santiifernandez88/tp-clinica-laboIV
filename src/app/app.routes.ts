@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { logueadoGuard } from './guards/logueado.guard';
 import { adminGuard } from './guards/admin.guard';
+import { pacienteGuard } from './guards/paciente.guard';
+import { especialistaGuard } from './guards/especialista.guard';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/bienvenida', pathMatch: "full" },
@@ -47,5 +49,28 @@ export const routes: Routes = [
         ),
       title: 'Home',
       canActivate: [logueadoGuard]
+    },
+    { path: 'paciente/Perfil',
+      loadComponent: () => 
+        import('./componentes/pacientes/mi-perfil/mi-perfil.component').then(
+            (c) => c.MiPerfilComponent
+        ),
+      title: 'Mi perfil',
+      canActivate: [pacienteGuard]
+    },
+    { path: 'especialista/Perfil',
+      loadComponent: () => 
+        import('./componentes/especialista/mi-perfil/mi-perfil.component').then(
+            (c) => c.MiPerfilComponent
+        ),
+      title: 'Mi perfil',
+      canActivate: [especialistaGuard]
+    },
+    { path: 'especialista/mis-horarios',
+      loadComponent: () => 
+        import('./componentes/especialista/mis-horarios/mis-horarios.component').then(
+            (c) => c.MisHorariosComponent
+        ),
+      canActivate: [especialistaGuard]
     },
 ];

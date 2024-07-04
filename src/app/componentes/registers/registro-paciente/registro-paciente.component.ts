@@ -6,11 +6,12 @@ import { Paciente } from '../../../interfaces/paciente';
 import { PacienteService } from '../../../services/paciente.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { RecaptchaModule } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-registro-paciente',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, RouterLink],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, RouterLink, RecaptchaModule],
   templateUrl: './registro-paciente.component.html',
   styleUrl: './registro-paciente.component.css'
 })
@@ -25,6 +26,7 @@ export class RegistroPacienteComponent {
   public msjExito!: string;
   public loading : boolean = false;
   obrasSociales: string[] = ['OSDE', 'IOMA', 'SWISS MEDICAL']; // Ejemplo de obras sociales
+  public showCaptchaError : boolean = false;
 
 
   constructor(private auth: AuthService, private imagenService: ImagenService, private pacienteService : PacienteService){}
@@ -139,4 +141,10 @@ export class RegistroPacienteComponent {
   uploadImageDos(foto: any) {
     this.file2 = foto.target.files[0];
   }
+
+  resolved(captchaResponse: any) {
+    this.captcha = captchaResponse;
+    this.showCaptchaError = false;
+  }
+
 }

@@ -15,16 +15,16 @@ import { RouterLink } from '@angular/router';
   templateUrl: './registro-especialista.component.html',
   styleUrls: ['./registro-especialista.component.css'] // Fixed 'styleUrl' to 'styleUrls'
 })
-export class RegistroEspecialistaComponent implements OnInit{
+export class RegistroEspecialistaComponent implements OnInit {
 
   formulario!: FormGroup;
   private especialista: Especialista | undefined;
   private file: any;
   public msjError: string = '';
   public msjExito!: string;
-  public loading : boolean = false;
+  public loading: boolean = false;
 
-  constructor(private auth: AuthService, private imagenService: ImagenService, private especialistaService : EspecialistaService){}
+  constructor(private auth: AuthService, private imagenService: ImagenService, private especialistaService: EspecialistaService) { }
 
   ngOnInit(): void {
     this.formulario = new FormGroup({
@@ -70,7 +70,7 @@ export class RegistroEspecialistaComponent implements OnInit{
     return null;
   }
 
-  crearEspecialista(){
+  crearEspecialista() {
     if (this.formulario.invalid) {
       this.formulario.markAllAsTouched();
       console.log("invalid form");
@@ -82,55 +82,60 @@ export class RegistroEspecialistaComponent implements OnInit{
     this.especialista = this.formulario.value;
     const { nombre, apellido, dni, edad, mail, password, fotoPerfil, especialidades } = this.formulario.value;
     this.especialista =
-      {
-        nombre: nombre,
-        apellido: apellido,
-        edad: edad,
-        dni: dni,
-        especialidades: especialidades,
-        mail: mail,
-        password: password,
-        fotoPerfil: fotoPerfil,
-        habilitado : false
-      } ;
+    {
+      nombre: nombre,
+      apellido: apellido,
+      edad: edad,
+      dni: dni,
+      especialidades: especialidades,
+      mail: mail,
+      password: password,
+      fotoPerfil: fotoPerfil,
+      habilitado: false
+    };
 
-      this.auth.Register(this.especialista.mail, this.especialista.password).then(res => {
-        if (res == null) {
-          // Manejar error de registro aquí
-        } else {
-          if(this.file && this.file.name){
-            this.imagenService.subirImg(this.file).then(path => {
-              this.especialista!.fotoPerfil = path;
-              this.especialistaService.agregarEspecialista(this.especialista!).then(() => {
-                this.msjExito = "Especialista creado con exito!!";
-                this.loading = false;
-                setTimeout(() => {
-                  this.auth.logout()
-                  this.formulario.reset();
-                }, 3000);
-                
-                
-              });
+    this.auth.Register(this.especialista.mail, this.especialista.password).then(res => {
+      if (res == null) {
+        // Manejar error de registro aquí
+      } else {
+        if (this.file && this.file.name) {
+          this.imagenService.subirImg(this.file).then(path => {
+            this.especialista!.fotoPerfil = path;
+            this.especialistaService.agregarEspecialista(this.especialista!).then(() => {
+              this.msjExito = "Especialista creado con exito!!";
+              this.loading = false;
+              setTimeout(() => {
+                this.auth.logout()
+                this.formulario.reset();
+              }, 3000);
+
+
             });
-          }else{
-            console.error('File is undefined or null');
-            this.loading = false; // Terminar carga
-          }
+          });
+        } else {
+          console.error('File is undefined or null');
+          this.loading = false; // Terminar carga
         }
-      }).catch(error => {
-        console.error('Error during registration', error);
-        
-        switch(error.code) {
-          case 'auth/email-already-in-use':
-            this.msjError = "El email esta en uso";
-            break;
-        }
-        this.loading = false; // Terminar carga
-      });;
+      }
+    }).catch(error => {
+      console.error('Error during registration', error);
+
+      switch (error.code) {
+        case 'auth/email-already-in-use':
+          this.msjError = "El email esta en uso";
+          break;
+      }
+      this.loading = false; // Terminar carga
+    });;
   }
 
   getEspecialidad(especialidad: string[]) {
     const especialidadesFormArray = this.formulario.get('especialidades') as FormArray;
+
+    // Limpiar el FormArray antes de agregar las nuevas especialidades seleccionadas
+    while (especialidadesFormArray.length) {
+      especialidadesFormArray.removeAt(0);
+    }
 
     // Agrega cada especialidad al FormArray
     especialidad.forEach(especialidad => {

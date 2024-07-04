@@ -18,6 +18,7 @@ export class UserService {
   paciente: boolean = false;
   especialista : boolean = false;
   especialistaHabilitado : boolean = false;
+  accionHorarios!: string;
   currentUser: Usuario = {
     mail: "",
     password: ""

@@ -30,6 +30,12 @@
 
             <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off" (click)="radio = '4'">
             <label class="btn btn-outline-primary" for="btnradio4">Registrar Admin</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off" (click)="radio = '5'">
+            <label class="btn btn-outline-primary" for="btnradio5">Registrar Paciente</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio6" autocomplete="off" (click)="radio = '6'">
+            <label class="btn btn-outline-primary" for="btnradio6">Registrar Especialista</label>
         </div>
         @switch (radio) {
             @case ('1') {
@@ -43,6 +49,12 @@
             }
             @case ('4') {
                 <app-registro-admin></app-registro-admin>
+            }
+            @case ('5') {
+              <app-registro-paciente></app-registro-paciente>
+            }
+            @case ('6') {
+              <app-registro-especialista></app-registro-especialista>
             }
         }
        

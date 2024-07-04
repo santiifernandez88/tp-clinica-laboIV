@@ -1,0 +1,9 @@
+li:hover{
+    cursor: pointer;
+}
+
+.scrollable-container {
+    max-height: 300px; /* Ajusta esta altura según tus necesidades */
+    overflow-y: auto;  /* Activa el desplazamiento vertical */
+    overflow-x: hidden; /* Desactiva el desplazamiento horizontal */
+}

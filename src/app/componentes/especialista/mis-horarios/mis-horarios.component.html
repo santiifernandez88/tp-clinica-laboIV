@@ -1,0 +1,330 @@
+<main>
+    <div class="container py-4">
+
+        <div *ngIf="!accion">
+            <button class="btn btn-primary mb-2" type="button" routerLink="/especialista/mi-perfil">Volver</button>
+        </div>
+
+        <div *ngIf="accion == 'agregar'">
+            <button class="btn btn-success mb-2" type="button" (click)="guardar()">Guardar</button>
+
+            <div class="row align-items-md-stretch" *ngIf="lunes && martes && miercoles && jueves && viernes && sabado">
+                <div class="col-md-4 pb-5 ">
+                    <div class="h-100 p-5 text-white bg-dark rounded-3">
+                        <h2>Lunes</h2>
+                        <hr>
+                        <h5>Consultorio:</h5>
+                        <select class="form-select mb-2" name="consult" [(ngModel)]="lunesConsultorio">
+                            <option value="consultorio1">Consultorio 1</option>
+                            <option value="consultorio2">Consultorio 2</option>
+                            <option value="consultorio3">Consultorio 3</option>
+                            <option value="consultorio4">Consultorio 4</option>
+                            <option value="consultorio5">Consultorio 5</option>
+                            <option value="consultorio6">Consultorio 6</option>
+                        </select>
+                        <div *ngFor="let hora of lunes[lunesConsultorio]">
+                            <div class="row justify-content-center">
+                                <div class="col-4">
+
+                                    <h6>{{hora.hora}}</h6>
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-sm" ngClass="{{hora.disponible? 'btn-outline-success'
+                                                    :'btn-outline-danger'}}" (click)="toggleActive(hora)">
+                                        {{hora.disponible?"Tomar":"Quitar"}}
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 pb-5">
+                    <div class="h-100 p-5 bg-light border rounded-3">
+                        <h2>Martes</h2>
+                        <hr>
+                        <h5>Consultorio:</h5>
+                        <select class="form-select mb-2" name="consult" [(ngModel)]="martesConsultorio">
+                            <option value="consultorio1">Consultorio 1</option>
+                            <option value="consultorio2">Consultorio 2</option>
+                            <option value="consultorio3">Consultorio 3</option>
+                            <option value="consultorio4">Consultorio 4</option>
+                            <option value="consultorio5">Consultorio 5</option>
+                            <option value="consultorio6">Consultorio 6</option>
+                        </select>
+                        <div *ngFor="let hora of martes[martesConsultorio]">
+                            <div class="row justify-content-center">
+                                <div class="col-4">
+
+                                    <h6>{{hora.hora}}</h6>
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-sm" ngClass="{{hora.disponible? 'btn-outline-success'
+                                                    :'btn-outline-danger'}}" (click)="toggleActive(hora)">
+                                        {{hora.disponible?"Tomar":"Quitar"}}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 pb-5">
+                    <div class="h-100 p-5 text-white bg-dark rounded-3">
+                        <h2>Miércoles</h2>
+                        <hr>
+                        <h5>Consultorio:</h5>
+                        <select class="form-select mb-2" name="consult" [(ngModel)]="miercolesConsultorio">
+                            <option value="consultorio1">Consultorio 1</option>
+                            <option value="consultorio2">Consultorio 2</option>
+                            <option value="consultorio3">Consultorio 3</option>
+                            <option value="consultorio4">Consultorio 4</option>
+                            <option value="consultorio5">Consultorio 5</option>
+                            <option value="consultorio6">Consultorio 6</option>
+                        </select>
+                        <div *ngFor="let hora of miercoles[miercolesConsultorio]">
+                            <div class="row justify-content-center">
+                                <div class="col-4">
+
+                                    <h6>{{hora.hora}}</h6>
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-sm" ngClass="{{hora.disponible? 'btn-outline-success'
+                                                    :'btn-outline-danger'}}" (click)="toggleActive(hora)">
+                                        {{hora.disponible?"Tomar":"Quitar"}}
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+
+                <div class=" col-md-4 pb-5">
+                    <div class="h-100 p-5 bg-light border rounded-3">
+                        <h2>Jueves</h2>
+                        <hr>
+                        <h5>Consultorio:</h5>
+                        <select class="form-select mb-2" name="consult" [(ngModel)]="juevesConsultorio">
+                            <option value="consultorio1">Consultorio 1</option>
+                            <option value="consultorio2">Consultorio 2</option>
+                            <option value="consultorio3">Consultorio 3</option>
+                            <option value="consultorio4">Consultorio 4</option>
+                            <option value="consultorio5">Consultorio 5</option>
+                            <option value="consultorio6">Consultorio 6</option>
+                        </select>
+                        <div *ngFor="let hora of jueves[juevesConsultorio]">
+                            <div class="row justify-content-center">
+                                <div class="col-4">
+
+                                    <h6>{{hora.hora}}</h6>
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-sm" ngClass="{{hora.disponible? 'btn-outline-success'
+                                                    :'btn-outline-danger'}}" (click)="toggleActive(hora)">
+                                        {{hora.disponible?"Tomar":"Quitar"}}
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 pb-5">
+                    <div class="h-100 p-5 text-white bg-dark rounded-3">
+                        <h2>Viernes</h2>
+                        <hr>
+                        <h5>Consultorio:</h5>
+                        <select class="form-select mb-2" name="consult" [(ngModel)]="viernesConsultorio">
+                            <option value="consultorio1">Consultorio 1</option>
+                            <option value="consultorio2">Consultorio 2</option>
+                            <option value="consultorio3">Consultorio 3</option>
+                            <option value="consultorio4">Consultorio 4</option>
+                            <option value="consultorio5">Consultorio 5</option>
+                            <option value="consultorio6">Consultorio 6</option>
+                        </select>
+                        <div *ngFor="let hora of viernes[viernesConsultorio]">
+                            <div class="row justify-content-center">
+                                <div class="col-4">
+
+                                    <h6>{{hora.hora}}</h6>
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-sm" ngClass="{{hora.disponible? 'btn-outline-success'
+                                                    :'btn-outline-danger'}}" (click)="toggleActive(hora)">
+                                        {{hora.disponible?"Tomar":"Quitar"}}
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 pb-5">
+                    <div class="h-100 p-5 bg-light border rounded-3">
+                        <h2>Sábado</h2>
+                        <hr>
+                        <h5>Consultorio:</h5>
+                        <select class="form-select mb-2" name="consult" [(ngModel)]="sabadoConsultorio">
+                            <option value="consultorio1">Consultorio 1</option>
+                            <option value="consultorio2">Consultorio 2</option>
+                            <option value="consultorio3">Consultorio 3</option>
+                            <option value="consultorio4">Consultorio 4</option>
+                            <option value="consultorio5">Consultorio 5</option>
+                            <option value="consultorio6">Consultorio 6</option>
+                        </select>
+                        <div *ngFor="let hora of sabado[sabadoConsultorio]">
+                            <div class="row justify-content-center">
+                                <div class="col-4">
+
+                                    <h6>{{hora.hora}}</h6>
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-sm" ngClass="{{hora.disponible? 'btn-outline-success'
+                                                    :'btn-outline-danger'}}" (click)="toggleActive(hora)">
+                                        {{hora.disponible?"Tomar":"Quitar"}}
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div
+            *ngIf="accion == 'editar' && lunesHorario && martesHorario && miercolesHorario && juevesHorario && viernesHorario && sabadoHorario">
+            <div class="row align-items-md-stretch">
+                <div class="col-md-4 pb-5 ">
+                    <div class="h-100 p-5 text-white bg-dark rounded-3">
+                        <h2>Lunes</h2>
+                        <hr>
+                        <div *ngFor="let hora of lunesHorario">
+                            <div class="row justify-content-center">
+                                <div class="col-4 mt-2">
+                                    <h6>{{hora.hora}}</h6>
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-outline-danger" (click)="borrarHorario('lunes', hora)">
+                                        Borrar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="lunesHorario.length == 0">
+                            <h6>No tiene horarios cargados</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 pb-5">
+                    <div class="h-100 p-5 bg-light border rounded-3">
+                        <h2>Martes</h2>
+                        <hr>
+                        <div *ngFor="let hora of martesHorario">
+                            <div class="row justify-content-center">
+                                <div class="col-4 mt-2">
+                                    <h6>{{hora.hora}}</h6>
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-outline-danger" (click)="borrarHorario('martes', hora)">
+                                        Borrar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="martesHorario.length == 0">
+                            <h6>No tiene horarios cargados</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 pb-5">
+                    <div class="h-100 p-5 text-white bg-dark rounded-3">
+                        <h2>Miércoles</h2>
+                        <hr>
+                        <div *ngFor="let hora of miercolesHorario">
+                            <div class="row justify-content-center">
+                                <div class="col-4 mt-2">
+                                    <h6>{{hora.hora}}</h6>
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-outline-danger" (click)="borrarHorario('miercoles', hora)">
+                                        Borrar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="miercolesHorario.length == 0">
+                            <h6>No tiene horarios cargados</h6>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+
+                <div class=" col-md-4 pb-5">
+                    <div class="h-100 p-5 bg-light border rounded-3">
+                        <h2>Jueves</h2>
+                        <hr>
+                        <div *ngFor="let hora of juevesHorario">
+                            <div class="row justify-content-center">
+                                <div class="col-4 mt-2">
+                                    <h6>{{hora.hora}}</h6>
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-outline-danger" (click)="borrarHorario('jueves', hora)">
+                                        Borrar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="juevesHorario.length == 0">
+                            <h6>No tiene horarios cargados</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 pb-5">
+                    <div class="h-100 p-5 text-white bg-dark rounded-3">
+                        <h2>Viernes</h2>
+                        <hr>
+                        <div *ngFor="let hora of viernesHorario">
+                            <div class="row justify-content-center">
+                                <div class="col-4 mt-2">
+                                    <h6>{{hora.hora}}</h6>
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-outline-danger" (click)="borrarHorario('viernes', hora)">
+                                        Borrar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="viernesHorario.length == 0">
+                            <h6>No tiene horarios cargados</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 pb-5">
+                    <div class="h-100 p-5 bg-light border rounded-3">
+                        <h2>Sábado</h2>
+                        <hr>
+                        <div *ngFor="let hora of sabadoHorario">
+                            <div class="row justify-content-center">
+                                <div class="col-4 mt-1">
+                                    <h6>{{hora}}</h6>
+                                </div>
+                                <div class="col-4">
+                                    <button type="button" class="btn btn-outline-danger">
+                                        Borrar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="sabadoHorario.length == 0">
+                            <h6>No tiene horarios cargados</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
