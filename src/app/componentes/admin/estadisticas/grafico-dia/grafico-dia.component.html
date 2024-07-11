@@ -1,0 +1,20 @@
+<h3>Turnos por Día</h3>
+<ngx-charts-bar-vertical
+  id="grafico6"
+  [view]="view"
+  [scheme]="colorScheme"
+  [results]="informacion"
+  [gradient]="gradient"
+  [xAxis]="showXAxis"
+  [yAxis]="showYAxis"
+  [legend]="showLegend"
+  [legendTitle]="titulo"
+  [showXAxisLabel]="showXAxisLabel"
+  [showYAxisLabel]="showYAxisLabel"
+  [xAxisLabel]="xAxisLabel"
+  [yAxisLabel]="yAxisLabel">
+</ngx-charts-bar-vertical>
+<div class="d-flex justify-content-center mt-2">
+  <button type="button" class="btn btn-danger me-2" (click)="descargarPDF()">Descargar Gráfico PDF - Turnos por dia</button>
+  <button type="button" class="btn btn-success ms-2" (click)="descargarExcel()">Descargar Datos Excel - Turnos por dia</button>
+</div>

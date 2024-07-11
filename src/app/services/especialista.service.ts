@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, doc, getDocs, limit, query, setDoc, updateDoc, where } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, doc, getDocs, limit, onSnapshot, query, setDoc, updateDoc, where } from '@angular/fire/firestore';
 import { Especialista } from '../interfaces/especialista';
 import { Observable } from 'rxjs';
 
@@ -31,6 +31,18 @@ export class EspecialistaService {
     updateDoc(docs, { habilitado: especialista.habilitado });
   }
 
+  traerPorEmail(email: string): Observable<Especialista> {
+    return new Observable<Especialista>((observer) => {
+      onSnapshot(this.dataRef, (snap) => {
+        snap.docChanges().forEach(x => {
+          const data = x.doc.data() as Especialista;
+          if (data.mail === email) {
+            observer.next(data);
+          }
+        });
+      });
+    });
+  }
  
 
 }

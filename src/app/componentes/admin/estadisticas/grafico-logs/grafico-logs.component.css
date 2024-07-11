@@ -1,0 +1,6 @@
+.logs-container {
+    max-height: 150px; /* Ajusta esta altura según tus necesidades */
+    overflow-y: auto;
+    border: 1px solid #ddd; /* Opcional: para tener un borde alrededor de la lista */
+    padding: 10px; /* Opcional: para tener un relleno interno */
+}

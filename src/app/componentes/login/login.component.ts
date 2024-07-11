@@ -13,6 +13,7 @@ import { Admin } from '../../interfaces/admin';
 import { Especialista } from '../../interfaces/especialista';
 import { UserService } from '../../services/user.service';
 import { Auth } from '@angular/fire/auth';
+import { LogUsuariosService } from '../../services/log-usuarios.service';
 
 @Component({
   selector: 'app-login',
@@ -33,7 +34,7 @@ export class LoginComponent {
   sendingRequest!: boolean;
   especialistaHabilitado : boolean = true
 
-  constructor(private router: Router, public auth: AuthService, private realAuth : Auth, private especialistaService: EspecialistaService, private userService: UserService) {}
+  constructor(private lServ: LogUsuariosService, private router: Router, public auth: AuthService, private realAuth : Auth, private especialistaService: EspecialistaService, private userService: UserService) {}
 
   async LoginUser() {
     if(!this.sendingRequest){
@@ -47,6 +48,7 @@ export class LoginComponent {
                 this.auth.userActive = res.user;
                 this.userService.currentUser.mail = this.email;
                 this.userService.currentUser.password = this.password;
+                this.lServ.actualizarLogUsuarios(this.email);
               } else{
                 this.flagError = true;
                 this.msjError = 'Por favor, espera a que un admin habilite tu correo electrónico antes de iniciar sesión.';
@@ -56,6 +58,7 @@ export class LoginComponent {
               this.auth.userActive = res.user;
               this.userService.currentUser.mail = this.email;
               this.userService.currentUser.password = this.password;
+              this.lServ.actualizarLogUsuarios(this.email);
             } 
           } else {
             this.flagError = true;

@@ -1,0 +1,102 @@
+<div class="fondo">
+    <a class="button" [routerLink]="['/home']">
+        <div class="button-box">
+          <span class="button-elem">
+            <svg viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"
+              ></path>
+            </svg>
+          </span>
+          <span class="button-elem">
+            <svg viewBox="0 0 46 40">
+              <path
+                d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"
+              ></path>
+            </svg>
+          </span>
+        </div>
+    </a>
+    <button class="btn btn btn-sm btn-outline-secondary mt-5 mx-5 reset-button" (click)="reset()">Reiniciar</button>
+    <div class="container py-4 ">
+    
+        <div class="row justify-content-evenly align-items-center" style="margin-left: 15%;" *ngIf="filtroSelect == ''">
+            <div class="col-12 col-xl-5 py-4">
+                <div class="bg-secondary circular-div" (click)="setFiltro('todos')">
+                    <h2 class="centered-text">Todos</h2>
+                </div>
+            </div>
+            <div class="col-12 col-xl-5 py-4">
+                <div class="bg-dark circular-div" (click)="setFiltro('especialidad')">
+                    <h2 class="centered-text">Especialidades</h2>
+                </div>
+            </div>
+            <div class="col-12 col-xl-5 py-4">
+                <div class="bg-light circular-div" (click)="setFiltro('especialista')">
+                    <h2 class="centered-text">Especialistas</h2>
+                </div>
+            </div>
+        </div>
+    
+        <div *ngIf="filtroSelect == 'especialista' && especialistaSelect === null">
+            <h1>Especialistas</h1>
+            <div class="row">
+                <div class="col-12 col-xl-3 bg-dark text-light border border-3 border-secondary especial-div"
+                    (click)="setEspecialista(esp)" *ngFor="let esp of especialistas">
+                    <div class="row justify-content-evenly mt-2">
+                        <div class="col-6">
+                            <h4 class="pt-3 text-capitalize">Dr. {{esp.nombre}} {{esp.apellido}}</h4>
+    
+                        </div>
+                        <div class="col-2 mx-2">
+                            <img src="{{esp.fotoPerfil}}" class="rounded-5 mt-3" style="width: 60px; height: 60px;" alt="imgDoc">
+                        </div>
+                    </div>
+                    <hr>
+                    <h5 class="mx-2">Especialidades:</h5>
+                    <div *ngFor="let especialidad of esp.especialidades" class="mx-5">
+                        <h6>{{especialidad}}</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div *ngIf="filtroSelect == 'especialidad' && especialidadSelect === ''">
+            <h1>Especialidades</h1>
+            <hr>
+            <div class="row">
+                <div class="col-2 bg-dark text-light text-center rounded-3 mx-2 mb-2 py-1 especial-div align-items-center"
+                    *ngFor="let esp of especialidades" (click)="setEspecialidad(esp.nombre)">
+                    <h6 class="pt-3 text-capitalize">{{esp.nombre}}</h6>
+                </div>
+                <hr>
+    
+            </div>
+        </div>
+    
+    
+        <div class="row" *ngIf="turnosDisponibles !== null && turnosDisponibles.length > 0">
+            <div class="col-4 bg-dark text-light border border-3 border-secondary rounded-3 text-left mb-2"
+                *ngFor="let turno of turnosDisponibles">
+                <h3>Especialista: {{getEspecialista(turno.especialistaEmail)}}</h3>
+                <h4>Fecha: {{turno.fecha}}</h4>
+                <h4>Hora: {{turno.horario.hora}}</h4>
+                <h4>Nro. Consultorio: {{turno.horario.nroConsultorio}}</h4>
+                <h4>Estado: {{turno.estado}}</h4>
+                <hr>
+                <div class="row">
+                    <div class="col-3 mb-3">
+                        <button class="btn btn-outline-danger" (click)="cancelar(turno)">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="turnosDisponibles !== null && especialidadSelect !== '' && turnosDisponibles.length === 0">
+            <div class="mt-5 bg-primary text-light rounded-3 py-4 text-center">
+              <h3>No hay turnos disponibles.</h3>
+            </div>
+        </div>
+
+    </div>
+    
+</div>

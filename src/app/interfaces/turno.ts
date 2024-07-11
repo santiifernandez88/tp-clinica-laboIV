@@ -1,3 +1,4 @@
+import { HistoriaClinica } from "./historiaClinica";
 import { Horario } from "./jornada";
 
 export interface Turno {
@@ -9,9 +10,9 @@ export interface Turno {
     estado: string,
     id: string,
     reseña: string,
-    calificacion: string,
+    calificacion: number,
     encuesta: string[],
-    historial: boolean,
+    historial: HistoriaClinica | null,
 }
 
 export interface DiaAtencion {

@@ -9,13 +9,19 @@ import { EspecialidadesService } from '../../../services/especialidades.service'
 import { TurnoService } from '../../../services/turno.service';
 import { CommonModule } from '@angular/common';
 import { HoraFormatPipe } from "../../../pipes/hora-format.pipe";
+import { UserService } from '../../../services/user.service';
+import { Especialidades } from '../../../interfaces/especialidades';
+import { RouterLink } from '@angular/router';
+import Swal from 'sweetalert2';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { FechaHoraFormatPipe } from "../../../pipes/fecha-hora-format.pipe";
 
 @Component({
     selector: 'app-solicitar-turno',
     standalone: true,
     templateUrl: './solicitar-turno.component.html',
-    styleUrl: './solicitar-turno.component.css',
-    imports: [CommonModule, HoraFormatPipe]
+    styleUrls: ['./solicitar-turno.component.css'],
+    imports: [CommonModule, HoraFormatPipe, RouterLink, FechaHoraFormatPipe]
 })
 export class SolicitarTurnoComponent {
 
@@ -28,27 +34,47 @@ export class SolicitarTurnoComponent {
   public turnosActuales!: Turno[];
   public especialistas: Especialista[] = [];
   public especialistasDisponibles: Especialista[] = [];
-  public especialidades: Especialista[] = [];
+  public especialidades: Especialidades[] = [];
+  public especialidadesDisponibles: Especialidades[] = [];
   public filtroSelect: string = "";
-  public especialidadSelect: string = "";
+  public especialidadSelect: Especialidades | null = null;
   public especialistaSelect: Especialista | null = null;
   public diaSelect: HorarioAtencion | null = null;
   public indexDiaSelect: number = 0;
   public diaNombreSelect: string = '';
+  public nombreEspecialidades : string [] = [];
+  public nombreEspecialidad : string = '';
 
-
-  constructor(private jor: JornadaService, private tur: TurnoService, private auth: AuthService, private esp: EspecialistaService, private especial: EspecialidadesService) { }
+  constructor(
+    private spinner: NgxSpinnerService, 
+    private userService: UserService,
+    private jor: JornadaService, 
+    private tur: TurnoService, 
+    private auth: AuthService, 
+    private esp: EspecialistaService, 
+    private especial: EspecialidadesService
+  ) { }
 
   ngOnInit(): void {
-    // this.auth.getUserLogged().subscribe(user => this.pacienteEmail = user?.email!);
-    // this.esp.traer().subscribe(data => this.especialistas = data);
-    // this.especial.traer().subscribe(data => this.especialidades = data);
-    // this.jor.traerJornadas().subscribe(res => {
-    //   this.jornadas = res
-    //   this.tur.traerTurnos().subscribe(data => this.turnosActuales = data);
-    // });
+    this.pacienteEmail = this.userService.currentUser.mail;
+    this.esp.obtenerEspecialistas().subscribe(esp => this.especialistas = esp);
+    this.especial.getAllEspecialidades().subscribe(esp => this.especialidades = esp);
+    this.jor.traerJornadas().subscribe(res => {
+      this.jornadas = res;
+      this.tur.traerTurnos().subscribe(data => this.turnosActuales = data);
+    });
   }
 
+  // onSelectEspecialista(email: string): void {
+  //   const selectedEspecialista = this.especialistas.find(esp => esp.mail === email);
+  //   if (selectedEspecialista) {
+  //     this.especialistaSelect = selectedEspecialista;
+  //     this.especialidadesDisponibles = selectedEspecialista.especialidades;
+  //   } else {
+  //     this.especialistaSelect = null;
+  //     this.especialidadesDisponibles = [];
+  //   }
+  // }
 
   getEspecialista(email: string): string {
     let nombre = '';
@@ -69,13 +95,11 @@ export class SolicitarTurnoComponent {
 
     for (let index = 0; index < 15; index++) {
       let unDia: HorarioAtencion[] = [];
-      if (index != 0)
-        fecha.setDate(fecha.getDate() + 1);
+      if (index != 0) fecha.setDate(fecha.getDate() + 1);
 
       const dia = this.convertirDiaATexto(fecha.getDay());
       for (const jornada of this.jornadas) {
         if (jornada.email === this.especialistaSelect?.mail) {
-
           if (dia !== 'domingo' && jornada.dias[dia].length > 0) {
             for (const horarioJor of jornada.dias[dia]) {
               const disp = this.existeHorarioEnTurnos(horarioJor, fecha.toLocaleDateString());
@@ -100,65 +124,69 @@ export class SolicitarTurnoComponent {
   reset() {
     if (this.diaSelect) {
       this.diaSelect = null;
-    }
-    else if (this.especialistaSelect != null) {
+    } else if (this.especialidadSelect != undefined) {
       this.turnosDisponibles = null;
+      this.especialidadSelect = null;
+      this.especialidadesDisponibles = [];
+    } else if (this.especialistaSelect != null) {
       this.especialistaSelect = null;
-    }
-    else if (this.especialidadSelect != '') {
-      this.especialidadSelect = "";
     }
   }
 
   setFiltro(selector: string): void {
-    //this.spinner.show();
+    this.spinner.show();
     setTimeout(() => {
       this.filtroSelect = selector;
-      //this.spinner.hide();
+      this.spinner.hide();
     }, 1000);
   }
 
   setEspecialista(esp: Especialista): void {
-    //this.spinner.show();
+    this.spinner.show();
     setTimeout(() => {
       this.especialistaSelect = esp;
-      console.log(this.especialistaSelect);
+      this.filtrarEspecialidades(this.especialistaSelect)
       this.cargarTurnos();
-      //this.spinner.hide();
+      this.spinner.hide();
     }, 1000);
   }
 
-  setEspecialidad(esp: string): void {
-    //this.spinner.show();
+  setEspecialidad(esp: Especialidades): void {
+    this.spinner.show();
+    console.log(esp);
     setTimeout(() => {
       this.especialidadSelect = esp;
       console.log(this.especialidadSelect);
-      this.filtrarEspecialistas(this.especialidadSelect);
-      //this.spinner.hide();
+      this.spinner.hide();
     }, 1000);
   }
 
-  filtrarEspecialistas(esp: string): void {
-    this.especialistasDisponibles = [];
-    for (const especialista of this.especialistas) {
-      if (especialista.especialidades.includes(esp)) {
-        this.especialistasDisponibles.push(especialista);
-      }
+  filtrarEspecialidades(esp: Especialista): void {
+    this.especialidadesDisponibles = []; // Limpiamos el array antes de agregar nuevos datos
+  
+    // Buscamos al especialista dentro de la lista de especialistas
+    const especialista = this.especialistas.find(e => e.mail === esp.mail);
+    
+    if (especialista) {
+      // Iteramos sobre las especialidades del especialista
+      esp.especialidades.forEach(nombre => {
+        // Buscamos la especialidad por nombre usando el servicio
+        this.especial.getEspecialidad(nombre).subscribe(data => {
+          if (data) {
+            // Si encontramos la especialidad, la agregamos a las disponibles
+            this.especialidadesDisponibles.push(data);
+            console.log(this.especialidadesDisponibles);
+          } else {
+            console.error(`No se encontró la especialidad ${nombre}`);
+          }
+        });
+      });
+    } else {
+      console.error(`No se encontró al especialista con email ${esp.mail}`);
     }
   }
 
 
-  contieneEspecialidad(jornada: Jornada, esp: string): boolean {
-    for (const especialista of this.especialistas) {
-      if (especialista.mail === jornada.email) {
-        if (especialista.especialidades.includes(esp)) {
-          return true;
-        }
-        break;
-      }
-    }
-    return false;
-  }
 
   existeHorarioEnTurnos(horario: Horario, fecha: string): boolean {
     for (const turno of this.turnosActuales) {
@@ -170,28 +198,32 @@ export class SolicitarTurnoComponent {
   }
 
   generarTurno(fecha: string, turno: HorarioAtencion): void {
-    this.turno = {
-      horario: turno.horario,
-      fecha: fecha,
-      pacienteEmail: this.pacienteEmail,
-      especialistaEmail: turno.especialistaEmail,
-      especialidad: this.especialidadSelect,
-      estado: 'pendiente',
-      id: '',
-      reseña: '',
-      calificacion: '',
-      encuesta: [],
-      historial: false,
+    
+    if(this.especialidadSelect){
+      this.turno = {
+        horario: turno.horario,
+        fecha: fecha,
+        pacienteEmail: this.pacienteEmail,
+        especialistaEmail: turno.especialistaEmail,
+        especialidad: this.especialidadSelect.nombre,
+        estado: 'pendiente',
+        id: '',
+        reseña: '',
+        calificacion: 0,
+        encuesta: [],
+        historial: null
+      }
+      this.tur.agregarTurno(this.turno);
+      Swal.fire({
+        position: 'bottom-end',
+        icon: 'success',
+        title: 'Turno generado',
+        footer: "Recuerde presentarse con el carnet de obra social",
+        showConfirmButton: false,
+        timer: 1500
+      }).then(() => this.reset());
     }
-    this.tur.agregarTurno(this.turno);
-    /*Swal.fire({
-      position: 'bottom-end',
-      icon: 'success',
-      title: 'Turno generado',
-      footer: "Recuerde presentarse con el carnet de obra social",
-      showConfirmButton: false,
-      timer: 1500
-    }).then(() => this.reset());*/
+    
   }
 
   convertirDiaATexto(dia: number): string {
@@ -205,8 +237,8 @@ export class SolicitarTurnoComponent {
 
   getFecha(array: any[], index: number): string {
     const dato = this.getKeyByIndex(array, index);
-    const fecha = dato.split('/')
-    return fecha[0] + '/' + fecha[1];
+    const [day, month, year] = dato.split('/');
+    return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
   }
 
   getElementArray(array: any[], index: number): any[] {
@@ -231,7 +263,6 @@ export class SolicitarTurnoComponent {
     this.indexDiaSelect = index;
     this.diaSelect = select;
     this.diaNombreSelect = dia;
-
-
   }
 }
+

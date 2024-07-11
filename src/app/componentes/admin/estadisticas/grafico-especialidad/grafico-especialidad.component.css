@@ -1,0 +1,11 @@
+h3{
+    font-weight: 400;
+    font-size: 25pt;
+    text-align: center;
+    margin: 40px;
+  }
+  
+  ngx-charts-bar-vertical, .btn{
+    display: flex;
+    justify-content: center;
+  }

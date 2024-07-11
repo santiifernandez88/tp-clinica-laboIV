@@ -3,13 +3,22 @@ import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '
 import { EspecialidadesService } from '../../../services/especialidades.service';
 import { Subscription } from 'rxjs';
 import { Especialidades } from '../../../interfaces/especialidades';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-tabla-especialidades',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './tabla-especialidades.component.html',
-  styleUrls: ['./tabla-especialidades.component.css']
+  styleUrls: ['./tabla-especialidades.component.css'],
+  animations: [
+    trigger('sliderInFromBottom', [
+      transition(':enter', [
+        style({ transform: 'translateY(100%)' }),
+        animate('0.5s ease-out', style({ transform: 'translateY(0)' })),
+      ]),
+    ]),
+  ],
 })
 export class TablaEspecialidadesComponent implements OnInit {
 
@@ -56,7 +65,7 @@ export class TablaEspecialidadesComponent implements OnInit {
     const especialidad = this.especialidadInput.nativeElement.value;
     const nuevaEspecialidad = this.quitarAcentos(especialidad);
     this.error = false;
-    const esp: Especialidades = { nombre: nuevaEspecialidad };
+    const esp: Especialidades = { nombre: nuevaEspecialidad, fotoPerfil: '' };
 
     this.especialidades.forEach((e) => {
       let especialidadSinAcentos = this.quitarAcentos(e.nombre);

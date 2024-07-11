@@ -5,13 +5,14 @@ import { UserService } from '../../../services/user.service';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { HorariosComponent } from "../../layouts/horarios/horarios.component";
+import { CapitalizePipe } from "../../../pipes/capitalize.pipe";
 
 @Component({
     selector: 'app-mi-perfil',
     standalone: true,
     templateUrl: './mi-perfil.component.html',
     styleUrl: './mi-perfil.component.css',
-    imports: [CommonModule, RouterLink, HorariosComponent]
+    imports: [CommonModule, RouterLink, HorariosComponent, CapitalizePipe]
 })
 export class MiPerfilComponent {
 

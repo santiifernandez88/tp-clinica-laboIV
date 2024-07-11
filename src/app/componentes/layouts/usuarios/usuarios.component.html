@@ -1,0 +1,20 @@
+<div class="container py-4">
+    <h5>Pacientes</h5>
+    <div class="row">
+        <div class="col" *ngFor="let paciente of pacientes">
+            <button class="fab-button" (click)="downloadExcel(paciente)">
+                <img [src]="paciente.fotoPerfilUno" alt="{{paciente.nombre}}" class="fab-img">
+            </button>
+            <div class="name">{{paciente.nombre}} {{paciente.apellido}}</div>
+        </div>
+    </div>
+    <h5>Especialistas</h5>
+    <div class="row">
+        <div class="col" *ngFor="let especialista of especialistas">
+            <button class="fab-button" (click)="downloadExcel(especialista)">
+                <img [src]="especialista.fotoPerfil" alt="{{especialista.nombre}}" class="fab-img">
+            </button>
+            <div class="name">{{especialista.nombre}} {{especialista.apellido}}</div>
+        </div>
+    </div>
+</div>

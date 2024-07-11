@@ -294,7 +294,7 @@ export class JornadaService {
 
   // Asegúrate de que cronograma esté bien definido y estructurado aquí
   // Luego, llama a Firebase updateDoc
-  const cronogramaRef = doc(this.firestore, 'cronograma/nOi8wN4JbG95wF5ivTqv');
+  const cronogramaRef = doc(this.firestore, 'cronograma/MOW2cwKfGV0aRsW2VMX8');
   updateDoc(cronogramaRef, cronograma)
       .then(() => {
           console.log("Cronograma updated successfully");

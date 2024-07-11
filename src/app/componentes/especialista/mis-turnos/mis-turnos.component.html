@@ -1,0 +1,80 @@
+<div class="fondo">
+    <a class="button" [routerLink]="['/home']">
+        <div class="button-box">
+          <span class="button-elem">
+            <svg viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"
+              ></path>
+            </svg>
+          </span>
+          <span class="button-elem">
+            <svg viewBox="0 0 46 40">
+              <path
+                d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"
+              ></path>
+            </svg>
+          </span>
+        </div>
+    </a>
+    <div class="container py-4">
+        <div *ngIf="!mostrarHistorial">
+            <h1>Mis Turnos</h1>
+            <hr>
+            <div class="row justify-content-start">
+                <div class="col-6 mt-2">
+                    Busqueda:
+                </div>
+                <div class="col-6">
+                    <input type="text" class="form-control" (input)="getFiltro($event)">
+                </div>
+            </div>
+            <div class="row mt-5" *ngIf="turnosMostrar.length > 0">
+                <div class="col-12 col-md-4 col-xl-3 bg-dark text-light rounded-3 text-left border border-3 border-secondary mb-4"
+                    *ngFor="let turno of turnosMostrar">
+                    <h3 class="h5" [appTitulo]="turno.pacienteEmail">Paciente: {{getPaciente(turno.pacienteEmail)}}</h3>
+                    <h4 class="h6" >Especialidad: {{turno.especialidad}}</h4>
+                    <h4 class="h6">Fecha: {{turno.fecha}}</h4>
+                    <h4 class="h6">Hora: {{turno.horario.hora}}</h4>
+                    <h4 class="h6">Nro. Consultorio: {{turno.horario.nroConsultorio}}</h4>
+                    <h4 class="h6 text-capitalize" [appEstadoTexto]="turno.estado">Estado: {{turno.estado}}</h4>
+                    <hr>
+                    <div class="row">
+                        <div class="col-6 mb-2" *ngIf="turno.estado == 'aceptado'" (click)="cancelar(turno)">
+                            <button class="btn btn-outline-danger btn-sm">Cancelar</button>
+                        </div>
+                        <div class="col-6 mb-2" *ngIf="turno.estado == 'pendiente'">
+                            <button class="btn btn-outline-success btn-sm" (click)="aceptar(turno)">Aceptar</button>
+                        </div>
+                        <div class="col-6 mb-2" *ngIf="turno.estado == 'pendiente'">
+                            <button class="btn btn-outline-danger btn-sm" (click)="rechazar(turno)">Rechazar</button>
+                        </div>
+                        <div class="col-6 mb-2" *ngIf="turno.estado == 'aceptado'">
+                            <button class="btn btn-outline-warning btn-sm" (click)="finalizar(turno)">Finalizar</button>
+                        </div>
+                        <div class="col-6 mb-2" *ngIf="turno.estado == 'finalizado' && turno.calificacion != 0">
+                            <button class="btn btn-outline-info btn-sm" (click)="verCalificacion(turno)">Ver Reseña</button>
+                        </div>
+                        <div class="col-6 mb-2" *ngIf="turno.estado == 'finalizado' && !turno.historial">
+                            <button class="btn btn-outline-warning btn-sm" (click)="cargarHistorial(turno)">Cargar Historia
+                                Clinica</button>
+                        </div>
+                        <div class="col-6 mb-2" *ngIf="turno.estado == 'finalizado' && turno.historial">
+                            <button class="btn btn-outline-warning btn-sm" (click)="getHistorial(turno)">Ver Historia
+                                Clinica</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="turnosMostrar.length <= 0">
+                <div class="mt-5 bg-primary text-light rounded-3 py-4 text-center">
+                  <h3>No hay turnos disponibles.</h3>
+                </div>
+              </div>
+            </div>
+    
+        <div *ngIf="mostrarHistorial">
+            <app-historial></app-historial>
+        </div>
+    </div>    
+</div>

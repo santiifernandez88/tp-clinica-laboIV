@@ -48,7 +48,7 @@ export class MisHorariosComponent implements OnInit {
   ngOnInit(): void {
     this.accion = this.userService.accionHorarios;
     this.email = this.userService.currentUser.mail;
-
+    //this.jor.generarJornadaInicial();
     this.jor.traerJornada(this.email).subscribe(data => {
       this.jornadaVieja = data;
       this.jor.traerCronograma().subscribe((res) => {

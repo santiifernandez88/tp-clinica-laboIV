@@ -2,13 +2,28 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Admin } from '../../../interfaces/admin';
 import { AdminService } from '../../../services/admin.service';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-tabla-administradores',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ],
   templateUrl: './tabla-administradores.component.html',
-  styleUrl: './tabla-administradores.component.css'
+  styleUrl: './tabla-administradores.component.css',
+  animations: [
+    trigger('sliderInFromBottom', [
+      transition(':enter', [
+        style({ transform: 'translateY(100%)' }),
+        animate('0.5s ease-out', style({ transform: 'translateY(0)' })),
+      ]),
+    ]),
+  ],
 })
 export class TablaAdministradoresComponent {
 

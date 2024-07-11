@@ -7,11 +7,12 @@ import { AdminService } from '../../../services/admin.service';
 import { CommonModule } from '@angular/common';
 import { Auth } from '@angular/fire/auth';
 import { UserService } from '../../../services/user.service';
+import { RecaptchaModule } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-registro-admin',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RecaptchaModule],
   templateUrl: './registro-admin.component.html',
   styleUrl: './registro-admin.component.css'
 })
@@ -22,6 +23,8 @@ export class RegistroAdminComponent {
   public msjError: string = '';
   public msjExito!: string;
   public loading : boolean = false;
+  public captcha: string = '';
+  public showCaptchaError : boolean = false;
 
   constructor(private auth: AuthService, private imgService: ImagenService, private admService: AdminService, private userService : UserService, private authReal : Auth) { }
 
@@ -45,7 +48,8 @@ export class RegistroAdminComponent {
   }
 
   getFieldError(field: string): string | null {
-    if (!this.formulario.controls[field] && !this.formulario.controls[field].errors) return null;
+    const control = this.formulario.get(field);
+    if (!control || !control.errors) return null;
 
     const errors = this.formulario.controls[field].errors;
     for (const key of Object.keys(errors!)) {
@@ -70,58 +74,71 @@ export class RegistroAdminComponent {
   async crearAdmin() {
     if (this.formulario.invalid) {
       this.formulario.markAllAsTouched();
+      this.showCaptchaError = true;
       console.log("invalid form");
       return;
     }
-    this.loading = true;
-    this.admin = this.formulario.value;
-    const { nombre, apellido, edad, dni, mail, password, img } = this.formulario.value;
-    this.admin =
-      {
-        nombre: nombre,
-        apellido: apellido,
-        edad: edad,
-        dni: dni,
-        mail: mail,
-        password: password,
-        img: img,
-      } as Admin;
 
-    this.auth.Register(this.admin.mail, this.admin.password).then(async res => {
-      if (!res) {
-        
-      } else {
-        
-        if(this.file && this.file.name){
-          this.imgService.subirImg(this.file).then(path => {
-            this.admin!.img = path;
-            this.admService.agregarAdmin(this.admin!).then(() => {
-              this.msjExito = "Admin creado con exito!!";
-              this.loading = false;
-              setTimeout(() => {
-                this.formulario.reset();
-                this.authReal.signOut();
-                this.auth.Login(this.userService.currentUser.mail, this.userService.currentUser.password);
-              }, 3000);
-                  
-            });;
-          });
-        } else{
-          console.error('File is undefined or null');
-          this.loading = false; // Terminar carga
-        }
+    if(this.captcha){
+      this.loading = true;
+      this.admin = this.formulario.value;
+      const { nombre, apellido, edad, dni, mail, password, img } = this.formulario.value;
+      this.admin =
+        {
+          nombre: nombre,
+          apellido: apellido,
+          edad: edad,
+          dni: dni,
+          mail: mail,
+          password: password,
+          img: img,
+        } as Admin;
+  
+      this.auth.Register(this.admin.mail, this.admin.password).then(async res => {
+        if (!res) {
           
-      }
-    }).catch(error => {
-      console.error('Error during registration', error);
-      
-      switch(error.code) {
-        case 'auth/email-already-in-use':
-          this.msjError = "El email esta en uso";
-          break;
-      }
-      this.loading = false; // Terminar carga
-    });
+        } else {
+          
+          if(this.file && this.file.name){
+            this.imgService.subirImg(this.file).then(path => {
+              this.admin!.img = path;
+              this.admService.agregarAdmin(this.admin!).then(() => {
+                this.msjExito = "Admin creado con exito!!";
+                this.loading = false;
+                setTimeout(() => {
+                  this.formulario.reset();
+                  this.authReal.signOut();
+                  this.auth.Login(this.userService.currentUser.mail, this.userService.currentUser.password);
+                }, 3000);
+                    
+              });;
+            });
+          } else{
+            console.error('File is undefined or null');
+            this.loading = false; // Terminar carga
+          }
+            
+        }
+      }).catch(error => {
+        console.error('Error during registration', error);
+        
+        switch(error.code) {
+          case 'auth/email-already-in-use':
+            this.msjError = "El email esta en uso";
+            break;
+        }
+        this.loading = false; // Terminar carga
+      });
+    } else{
+      this.showCaptchaError = true;
+      this.msjError = "Tienes que verificar que no eres un robot";
+    }
+    
+  }
+
+  resolved(captchaResponse: any) {
+    this.captcha = captchaResponse;
+    this.showCaptchaError = false;
   }
 
 }

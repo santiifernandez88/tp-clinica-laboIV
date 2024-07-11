@@ -1,3 +1,4 @@
 export interface Especialidades{
-    nombre : string
+    nombre : string,
+    fotoPerfil: string
 }

@@ -30,7 +30,7 @@
                     <div class="h-100 p-5 text-dark bg-light rounded-3">
                         <div class="row justify-content-evenly text-center align-items-center">
                             <div class="col-6">
-                                <h5>{{paciente.apellido}}, {{paciente.nombre}}</h5>
+                                <h5>{{paciente.apellido | capitalize}} , {{paciente.nombre | capitalize}}</h5>
                             </div>
                             <div class="col-6">
                                 <img src={{paciente.fotoPerfilUno}} alt="img perfil" class="imgRedonda">
@@ -42,11 +42,56 @@
                             <h5>Email: {{paciente.mail}}</h5>
                             <h5>Edad: {{paciente.edad}}</h5>
                         </div>
+                        <div class="col-6 mt-3">
+                            <button class="btn btn-outline-success w-100" (click)="getHistorial(paciente)">Ver historial clinico</button>
+                        </div>
                     </div>
+                </div>
+            </div>
+            
+            <div class="row" *ngIf="turnosHist.length > 0">
+                <div class="col-md-12 col-xl-12 bg-dark rounded-3 mt-5">
+                    <h3 class="text-white mt-2 text-center">Historial Clinico</h3>
+                    <div class="d-flex justify-content-between mt-3">
+                        <button type="button" class="btn btn-sm btn-outline-danger mx-2" (click)="turnosHist = []">Cerrar</button>
+                        <select class="form-select form-control custom-select mx-2" [(ngModel)]="especialidadSeleccionada">
+                            <option value="">Seleccionar Especialidad</option>
+                            <option *ngFor="let especialidad of especialidadesDisponibles()" [value]="especialidad">{{ especialidad }}</option>
+                        </select>
+                        <button type="button" class="btn btn-sm btn-outline-success mx-2" (click)="downloadPDF()">Descargar PDF</button>
+                    </div>
+                    <div class="px-5" *ngIf="turnosHist.length > 0">
+                        <div class="row justify-content-evenly text-center align-items-center text-dark bg-white rounded-3 mt-5 mb-5 pb-3" *ngFor="let histoCli of turnosHist">
+                            <div class="col-12 mt-3">
+                                <h5>Especialista: {{getEspecialista(histoCli.especialistaEmail)}}</h5>
+                                <h6>Especialidad: {{histoCli.especialidad}}</h6>
+                                <h5>Turno: {{histoCli.fecha}} {{histoCli.horario.hora}}</h5>
+                                <hr>
+                            </div>
+                            <div class="col-12">
+                                <h5>Altura: {{histoCli.historial?.altura}}</h5>
+                            </div>
+                            <div class="col-12">
+                                <h5>Peso: {{histoCli.historial?.peso}}</h5>
+                            </div>
+                            <div class="col-12">
+                                <h5>Temperatura: {{histoCli.historial?.temperatura}}</h5>
+                            </div>
+                            <div class="col-12">
+                                <h5>Presion: {{histoCli.historial?.presion}}</h5>
+                            </div>
+                            <div class="col-12" *ngFor="let dato of histoCli.historial?.datos; let i = index">
+                                <h5>{{dato['clave']}}: {{dato['valor']}}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="mostrarHis === false">
+                <div class="mt-5 bg-primary text-light rounded-3 py-4 text-center">
+                    <h3>El paciente no poseé historias clinicas.</h3>
                 </div>
             </div>
         </div>
     </div>
-   
-
 </main>

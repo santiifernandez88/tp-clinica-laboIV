@@ -1,0 +1,25 @@
+
+
+h3{
+
+  font-weight: 400;
+  font-size: 25pt;
+  text-align: center;
+  margin: 40px;
+}
+
+.fondo{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.medico{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+main{
+  margin-top: 120px;
+}

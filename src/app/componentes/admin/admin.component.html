@@ -36,7 +36,11 @@
 
             <input type="radio" class="btn-check" name="btnradio" id="btnradio6" autocomplete="off" (click)="radio = '6'">
             <label class="btn btn-outline-primary" for="btnradio6">Registrar Especialista</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio7" autocomplete="off" (click)="radio = '7'">
+            <label class="btn btn-outline-primary" for="btnradio7">Usuarios</label>
         </div>
+        
         @switch (radio) {
             @case ('1') {
                 <app-tabla-especialistas></app-tabla-especialistas>
@@ -55,6 +59,9 @@
             }
             @case ('6') {
               <app-registro-especialista></app-registro-especialista>
+            }
+            @case ('7') {
+              <app-usuarios></app-usuarios>
             }
         }
        

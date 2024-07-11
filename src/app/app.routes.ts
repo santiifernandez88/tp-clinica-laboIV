@@ -73,4 +73,53 @@ export const routes: Routes = [
         ),
       canActivate: [especialistaGuard]
     },
+    { path: 'especialista/mis-turnos',
+      loadComponent: () => 
+        import('./componentes/especialista/mis-turnos/mis-turnos.component').then(
+            (c) => c.MisTurnosComponent
+        ),
+      canActivate: [especialistaGuard]
+    },
+    { path: 'paciente/solicitar-turno',
+      loadComponent: () => 
+        import('./componentes/pacientes/solicitar-turno/solicitar-turno.component').then(
+            (c) => c.SolicitarTurnoComponent
+        ),
+      canActivate: [pacienteGuard]
+    },
+    { path: 'paciente/mis-turnos',
+      loadComponent: () => 
+        import('./componentes/pacientes/mis-turnos/mis-turnos.component').then(
+            (c) => c.MisTurnosComponent
+        ),
+      canActivate: [pacienteGuard]
+    },
+    { path: 'turnos',
+      loadComponent: () => 
+        import('./componentes/admin/turnos/turnos.component').then(
+            (c) => c.TurnosComponent
+        ),
+      canActivate: [adminGuard]
+    },
+    { path: 'especialista/pacientes',
+      loadComponent: () => 
+        import('./componentes/especialista/pacientes/pacientes.component').then(
+            (c) => c.PacientesComponent
+        ),
+      canActivate: [especialistaGuard]
+    },
+    { path: 'admin/solicitar-turno',
+      loadComponent: () => 
+        import('./componentes/admin/solicitar-turno/solicitar-turno.component').then(
+            (c) => c.SolicitarTurnoComponent
+        ),
+      canActivate: [adminGuard]
+    },
+    { path: 'admin/estadisticas',
+      loadComponent: () => 
+        import('./componentes/admin/estadisticas/estadisticas.component').then(
+            (c) => c.EstadisticasComponent
+        ),
+      canActivate: [adminGuard]
+    },
 ];

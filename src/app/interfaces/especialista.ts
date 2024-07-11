@@ -1,3 +1,5 @@
+import { Especialidades } from "./especialidades";
+
 export interface Especialista{
     nombre: string,
     apellido: string,

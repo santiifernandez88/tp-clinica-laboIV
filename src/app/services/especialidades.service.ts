@@ -15,32 +15,44 @@ export class EspecialidadesService {
     return addDoc(this.dataRef, { 'nombre': especialidad });
   }
 
-  getEspecialidad(especialidad: string): Observable<string | null> {
-    return new Observable<string | null>((observer) => {
-      const q = query(this.dataRef, where('nombre', '==', especialidad));
-      const unsubscribe = onSnapshot(q, (snap) => {
-        let found = false;
-        snap.forEach(doc => {
-          const data = doc.data() as any;
-          if (data.nombre === especialidad) {
-            found = true;
-            observer.next(data.nombre);
-          }
-        });
-        if (!found) {
+  getEspecialidad(especialidad: string): Observable<Especialidades | null> {
+    const q = query(this.dataRef, where('nombre', '==', especialidad));
+    return new Observable<Especialidades | null>((observer) => {
+      getDocs(q).then((querySnapshot) => {
+        if (!querySnapshot.empty) {
+          const doc = querySnapshot.docs[0];
+          const data = doc.data() as Especialidades;
+          observer.next(data);
+        } else {
           observer.next(null);
         }
-      }, (error) => {
+        observer.complete();
+      }).catch((error) => {
         observer.error(error);
       });
-
-      return () => unsubscribe();
     });
   }
 
   getAllEspecialidades(): Observable<Especialidades[]> {
     return new Observable<Especialidades[]>((observer) => {
       getDocs(this.dataRef).then((querySnapshot) => {
+        const especialidades: Especialidades[] = [];
+        querySnapshot.forEach((doc) => {
+          const data = doc.data() as Especialidades;
+          especialidades.push(data);
+        });
+        observer.next(especialidades);
+        observer.complete();
+      }).catch((error) => {
+        observer.error(error);
+      });
+    });
+  }
+
+  getEspecialidadesPorEspecialista(email: string): Observable<Especialidades[]> {
+    return new Observable<Especialidades[]>((observer) => {
+      const q = query(this.dataRef, where('especialistaEmail', '==', email));
+      getDocs(q).then((querySnapshot) => {
         const especialidades: Especialidades[] = [];
         querySnapshot.forEach((doc) => {
           const data = doc.data() as Especialidades;

@@ -59,9 +59,9 @@
                 {{getFieldError('fotoPerfil')}}
             </span>
         </div>
-
+        <re-captcha (resolved)="resolved($event)" siteKey="6Le48wMqAAAAAC_31gEUMff59BrnUN89d5xx9zPS"></re-captcha>
         <div class="d-grid gap-2 col-8 mx-auto mb-3">
-            <button type="submit" class="btn btn-primary">Registrarse</button>
+            <button type="submit" class="btn btn-primary" [disabled]="showCaptchaError">Registrarse</button>
         </div>
         <div class="spinner-border text-primary" role="status" *ngIf="loading != false">
             <span class="visually-hidden">Loading...</span>

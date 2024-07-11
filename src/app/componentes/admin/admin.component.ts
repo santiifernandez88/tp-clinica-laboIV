@@ -9,11 +9,12 @@ import { RegistroAdminComponent } from '../registers/registro-admin/registro-adm
 import { TablaAdministradoresComponent } from '../layouts/tabla-administradores/tabla-administradores.component';
 import { RegistroEspecialistaComponent } from '../registers/registro-especialista/registro-especialista.component';
 import { RegistroPacienteComponent } from '../registers/registro-paciente/registro-paciente.component';
+import { UsuariosComponent } from "../layouts/usuarios/usuarios.component";
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, TablaEspecialistasComponent, TablaPacientesComponent, RouterLink, RegistroAdminComponent, TablaAdministradoresComponent, RegistroEspecialistaComponent, RegistroPacienteComponent],
+  imports: [CommonModule, TablaEspecialistasComponent, TablaPacientesComponent, RouterLink, RegistroAdminComponent, TablaAdministradoresComponent, RegistroEspecialistaComponent, RegistroPacienteComponent, UsuariosComponent],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })

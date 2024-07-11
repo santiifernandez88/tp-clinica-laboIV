@@ -1,0 +1,190 @@
+.fondo {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+      45deg,
+      transparent 33.33%,
+      rgba(57, 144, 179, 0.1) 33.33%,
+      rgba(0, 0, 0, 0.1) 66.66%,
+      transparent 66.66%
+    ),
+    lightblue;
+  background-size: 20px 20px;
+  padding: 20px; /* Añade espacio interior */
+  box-sizing: border-box; /* Incluye el padding en el tamaño total */
+}
+
+.especialidad-button {
+  width: 100%;
+  height: auto;
+  border: none;
+  background: none;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+  margin-bottom: 20px;
+}
+
+.especialidad-button img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+}
+
+.especialidad-button:hover {
+  background-color: #3498db;
+  color: black;
+  cursor: pointer;
+}
+
+
+.cuadrado {
+  width: 85px; /* Aumenta el tamaño del cuadrado de horarios */
+  height: 85px; /* Aumenta el tamaño del cuadrado de horarios */
+  margin: 5px; /* Aumenta el espacio entre botones de horarios */
+}
+
+.especialistas {
+  text-align: center; /* Centra el contenido horizontalmente */
+}
+
+.especialistas-container {
+  display: flex; /* Utiliza flexbox para los especialistas */
+  flex-wrap: wrap; /* Permite que los elementos se ajusten automáticamente */
+  justify-content: center; /* Centra los elementos en el contenedor */
+  margin-top: 20px; /* Ajusta el margen superior */
+}
+
+.especialista {
+  margin: 10px; /* Aumenta el espacio entre especialistas */
+}
+
+.especialista-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.especialista-button {
+  width: 200px; /* Aumenta el tamaño del botón de especialista */
+  height: 200px; /* Aumenta el tamaño del botón de especialista */
+  border: none;
+  background: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.imgCuadrada {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.especialista-button:hover {
+  transform: scale(1.1); 
+  border: 3px solid #42A5F5;
+}
+
+.botones-horario {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.cuadrado {
+  width: 85px;
+  height: 85px;
+  margin: 5px;
+}
+
+.cuadradoFecha{
+  width: 80px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.letraFecha{
+  font-size: 14px;
+}
+
+.button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: block;
+  width: 56px;
+  height: 56px;
+  margin: 0;
+  overflow: hidden;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+  border: 0;
+}
+
+.button:before,
+.button:after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  inset: 7px;
+}
+
+.button:before {
+  border: 4px solid #f0eeef;
+  transition: opacity 0.4s cubic-bezier(0.77, 0, 0.175, 1) 80ms,
+    transform 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 80ms;
+}
+
+.button:after {
+  border: 4px solid #c31e1e;
+  transform: scale(1.3);
+  transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
+    transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  opacity: 0;
+}
+
+.button:hover:before,
+.button:focus:before {
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
+    transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.button:hover:after,
+.button:focus:after {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.4s cubic-bezier(0.77, 0, 0.175, 1) 80ms,
+    transform 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 80ms;
+}
+
+.button-box {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.button-elem {
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin: 17px 18px 0 18px;
+  transform: rotate(180deg);
+  fill: #f0eeef;
+}
+
+.button:hover .button-box,
+.button:focus .button-box {
+  transition: 0.4s;
+  transform: translateX(-56px);
+}

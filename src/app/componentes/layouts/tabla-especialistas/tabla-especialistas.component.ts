@@ -2,13 +2,22 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Especialista } from '../../../interfaces/especialista';
 import { EspecialistaService } from '../../../services/especialista.service';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-tabla-especialistas',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './tabla-especialistas.component.html',
-  styleUrl: './tabla-especialistas.component.css'
+  styleUrl: './tabla-especialistas.component.css',
+  animations: [
+    trigger('sliderInFromBottom', [
+      transition(':enter', [
+        style({ transform: 'translateY(100%)' }),
+        animate('0.5s ease-out', style({ transform: 'translateY(0)' })),
+      ]),
+    ]),
+  ],
 })
 export class TablaEspecialistasComponent {
 

@@ -1,0 +1,72 @@
+<a class="button" [routerLink]="['/home']">
+    <div class="button-box">
+      <span class="button-elem">
+        <svg viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"
+          ></path>
+        </svg>
+      </span>
+      <span class="button-elem">
+        <svg viewBox="0 0 46 40">
+          <path
+            d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"
+          ></path>
+        </svg>
+      </span>
+    </div>
+</a>
+<div class="container p-4">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" *ngIf="historialClinico.length == 0">
+      <div class="col" *ngFor="let paciente of pacientes">
+        <div class="card shadow-sm bg-dark text-white">
+          <img [src]="paciente.fotoPerfilUno" alt="" class="imgRedonda">
+          <div class="card-body text-center">
+            <h4>{{paciente.apellido}}, {{paciente.nombre}}</h4>
+            <h5>DNI: {{paciente.dni}}</h5>
+            <h5>Email: {{paciente.mail}}</h5>
+            <h5>Edad: {{paciente.edad}}</h5>
+            <h5>Obra Social: {{paciente.obraSocial}}</h5>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-primary" (click)="getHistorial(paciente)">Ver Historiales</button> 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="historialClinico.length > 0">
+      <div class="col-md-12 col-xl-12 bg-dark rounded-3 mt-5">
+        <h3 class="text-white mt-2 text-center">Historial Clinico</h3>
+        <button type="button" class="btn btn-sm btn-outline-danger mt-3" (click)="reset()">Cerrar</button>
+        <div class="px-5" *ngIf="historialClinico.length > 0">
+          <div class="row justify-content-evenly text-center align-items-center text-dark bg-white rounded-3 mt-5 mb-5 pb-3" *ngFor="let histoCli of historialClinico">
+            @if (histoCli.historial) {
+              <div class="col-12 mt-3">
+                <h5>Paciente: {{getPaciente(histoCli.pacienteEmail)}}</h5>
+                <h5>Turno: {{histoCli.fecha}} {{histoCli.horario.hora}}</h5>
+                <hr>
+              </div>
+              <div class="col-12">
+                <h5>Altura: {{histoCli.historial.altura}}</h5>
+              </div>
+              <div class="col-12">
+                <h5>Peso: {{histoCli.historial.peso}}</h5>
+              </div>
+              <div class="col-12">
+                <h5>Temperatura: {{histoCli.historial.temperatura}}</h5>
+              </div>
+              <div class="col-12">
+                <h5>Presion: {{histoCli.historial.presion}}</h5>
+              </div>
+              <div class="col-12" *ngFor="let dato of histoCli.historial?.datos; let i = index">
+                <h5 >{{dato['clave']}}: {{dato['valor']}}</h5>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

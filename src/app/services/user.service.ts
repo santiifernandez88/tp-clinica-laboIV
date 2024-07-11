@@ -8,6 +8,7 @@ import { EspecialistaService } from './especialista.service';
 import { Especialista } from '../interfaces/especialista';
 import { Usuario } from '../interfaces/usuario';
 import { Auth } from '@angular/fire/auth';
+import { Turno } from '../interfaces/turno';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,9 @@ export class UserService {
   paciente: boolean = false;
   especialista : boolean = false;
   especialistaHabilitado : boolean = false;
-  accionHorarios!: string;
+  public accionHorarios!: string;
+  public idPacienteHistorial!: number;
+  public turno!: Turno;
   currentUser: Usuario = {
     mail: "",
     password: ""
@@ -85,4 +88,3 @@ export class UserService {
   //   }
   // }
 }
-

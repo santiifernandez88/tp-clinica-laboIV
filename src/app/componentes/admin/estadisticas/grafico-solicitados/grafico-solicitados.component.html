@@ -1,0 +1,54 @@
+<div class="container">
+  <!-- Título y formulario de fechas -->
+  <div class="row">
+    <div class="col-md-12">
+      <h2>{{ titulo }}</h2>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-md-4">
+      <form [formGroup]="dateRange" (ngSubmit)="filtrarTurnosDesdeBoton()">
+        <div class="form-group">
+          <label for="start">Fecha de inicio:</label>
+          <input type="date" class="form-control" id="start" formControlName="start" required>
+        </div>
+        <div class="form-group">
+          <label for="end">Fecha de fin:</label>
+          <input type="date" class="form-control" id="end" formControlName="end" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+      </form>
+    </div>
+   
+  </div>
+
+  <div class="row mt-3">
+    <!-- Gráfico -->
+    <ngx-charts-bar-vertical
+      id="grafico-solicitados"
+      [view]="view"
+      [scheme]="colorScheme"
+      [results]="informacion"
+      [gradient]="gradient"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [legend]="showLegend"
+      [legendPosition]="legendPosition"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="yAxisLabel">
+    </ngx-charts-bar-vertical>
+  </div>
+
+  <!-- Botones de descarga -->
+  <div class="row mt-3">
+    <div class="col-md-12">
+      <div class="d-flex justify-content-center mt-2">
+        <button type="button" class="btn btn-danger me-2" (click)="descargarPDF()">Descargar Gráfico PDF - Turnos finalizados por medico</button>
+        <button type="button" class="btn btn-success ms-2" (click)="descargarExcel()">Descargar Datos Excel - Turnos finalizados por medico</button>
+      </div>
+    </div>
+  </div>
+</div>

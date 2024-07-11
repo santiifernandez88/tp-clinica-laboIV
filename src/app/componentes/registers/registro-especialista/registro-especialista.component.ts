@@ -7,11 +7,12 @@ import { Especialista } from '../../../interfaces/especialista';
 import { ImagenService } from '../../../services/imagen.service';
 import { EspecialistaService } from '../../../services/especialista.service';
 import { RouterLink } from '@angular/router';
+import { RecaptchaModule } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-registro-especialista',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, CommonModule, TablaEspecialidadesComponent, RouterLink],
+  imports: [ReactiveFormsModule, FormsModule, CommonModule, TablaEspecialidadesComponent, RouterLink, RecaptchaModule],
   templateUrl: './registro-especialista.component.html',
   styleUrls: ['./registro-especialista.component.css'] // Fixed 'styleUrl' to 'styleUrls'
 })
@@ -23,6 +24,8 @@ export class RegistroEspecialistaComponent implements OnInit {
   public msjError: string = '';
   public msjExito!: string;
   public loading: boolean = false;
+  public captcha: string = '';
+  public showCaptchaError : boolean = false;
 
   constructor(private auth: AuthService, private imagenService: ImagenService, private especialistaService: EspecialistaService) { }
 
@@ -73,60 +76,66 @@ export class RegistroEspecialistaComponent implements OnInit {
   crearEspecialista() {
     if (this.formulario.invalid) {
       this.formulario.markAllAsTouched();
+      this.showCaptchaError = true;
       console.log("invalid form");
       return;
     }
 
-    this.loading = true;
-    console.log(this.formulario.value);
-    this.especialista = this.formulario.value;
-    const { nombre, apellido, dni, edad, mail, password, fotoPerfil, especialidades } = this.formulario.value;
-    this.especialista =
-    {
-      nombre: nombre,
-      apellido: apellido,
-      edad: edad,
-      dni: dni,
-      especialidades: especialidades,
-      mail: mail,
-      password: password,
-      fotoPerfil: fotoPerfil,
-      habilitado: false
-    };
-
-    this.auth.Register(this.especialista.mail, this.especialista.password).then(res => {
-      if (res == null) {
-        // Manejar error de registro aquí
-      } else {
-        if (this.file && this.file.name) {
-          this.imagenService.subirImg(this.file).then(path => {
-            this.especialista!.fotoPerfil = path;
-            this.especialistaService.agregarEspecialista(this.especialista!).then(() => {
-              this.msjExito = "Especialista creado con exito!!";
-              this.loading = false;
-              setTimeout(() => {
-                this.auth.logout()
-                this.formulario.reset();
-              }, 3000);
-
-
-            });
-          });
+    if(this.captcha){
+      this.loading = true;
+      console.log(this.formulario.value);
+      this.especialista = this.formulario.value;
+      const { nombre, apellido, dni, edad, mail, password, fotoPerfil, especialidades } = this.formulario.value;
+      this.especialista =
+      {
+        nombre: nombre,
+        apellido: apellido,
+        edad: edad,
+        dni: dni,
+        especialidades: especialidades,
+        mail: mail,
+        password: password,
+        fotoPerfil: fotoPerfil,
+        habilitado: false
+      };
+  
+      this.auth.Register(this.especialista.mail, this.especialista.password).then(res => {
+        if (res == null) {
+          // Manejar error de registro aquí
         } else {
-          console.error('File is undefined or null');
-          this.loading = false; // Terminar carga
+          if (this.file && this.file.name) {
+            this.imagenService.subirImg(this.file).then(path => {
+              this.especialista!.fotoPerfil = path;
+              this.especialistaService.agregarEspecialista(this.especialista!).then(() => {
+                this.msjExito = "Especialista creado con exito!!";
+                this.loading = false;
+                setTimeout(() => {
+                  this.auth.logout()
+                  this.formulario.reset();
+                }, 3000);
+  
+  
+              });
+            });
+          } else {
+            console.error('File is undefined or null');
+            this.loading = false; // Terminar carga
+          }
         }
-      }
-    }).catch(error => {
-      console.error('Error during registration', error);
-
-      switch (error.code) {
-        case 'auth/email-already-in-use':
-          this.msjError = "El email esta en uso";
-          break;
-      }
-      this.loading = false; // Terminar carga
-    });;
+      }).catch(error => {
+        console.error('Error during registration', error);
+  
+        switch (error.code) {
+          case 'auth/email-already-in-use':
+            this.msjError = "El email esta en uso";
+            break;
+        }
+        this.loading = false; // Terminar carga
+      });;
+    }else{
+      this.showCaptchaError = true;
+      this.msjError = "Tienes que verificar que no eres un robot";
+    }
   }
 
   getEspecialidad(especialidad: string[]) {
@@ -147,5 +156,10 @@ export class RegistroEspecialistaComponent implements OnInit {
   uploadImage(foto: any) {
     this.file = foto.target.files[0];
     //console.log(this.file);
+  }
+
+  resolved(captchaResponse: any) {
+    this.captcha = captchaResponse;
+    this.showCaptchaError = false;
   }
 }

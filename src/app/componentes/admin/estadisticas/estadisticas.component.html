@@ -1,0 +1,55 @@
+<a class="button" [routerLink]="['/home']">
+    <div class="button-box">
+      <span class="button-elem">
+        <svg viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"
+          ></path>
+        </svg>
+      </span>
+      <span class="button-elem">
+        <svg viewBox="0 0 46 40">
+          <path
+            d="M46 20.038c0-.7-.3-1.5-.8-2.1l-16-17c-1.1-1-3.2-1.4-4.4-.3-1.2 1.1-1.2 3.3 0 4.4l11.3 11.9H3c-1.7 0-3 1.3-3 3s1.3 3 3 3h33.1l-11.3 11.9c-1 1-1.2 3.3 0 4.4 1.2 1.1 3.3.8 4.4-.3l16-17c.5-.5.8-1.1.8-1.9z"
+          ></path>
+        </svg>
+      </span>
+    </div>
+</a>
+<div class="container">
+    <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked (click)="radio = '1'">
+        <label class="btn btn-outline-primary" for="btnradio1">Logs de usuarios</label>
+      
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" (click)="radio = '2'">
+        <label class="btn btn-outline-primary" for="btnradio2">Turnos por especialidad</label>
+
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" (click)="radio = '3'">
+        <label class="btn btn-outline-primary" for="btnradio3">Turnos por dia</label>
+
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off" (click)="radio = '4'">
+        <label class="btn btn-outline-primary" for="btnradio4">Turnos solicitado por medico</label>
+
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off" (click)="radio = '5'">
+        <label class="btn btn-outline-primary" for="btnradio5">Turnos finalizados por medico</label>
+    </div>
+    @switch (radio) {
+        @case ('1') {
+            <app-grafico-logs></app-grafico-logs>
+        }
+        @case ('2') {
+            <app-grafico-especialidad></app-grafico-especialidad>
+        }
+        @case ('3') {
+            <app-grafico-dia></app-grafico-dia>
+        }
+        @case ('4') {
+            <app-grafico-solicitados></app-grafico-solicitados>
+        }
+        @case ('5') {
+            <app-grafico-finalizados></app-grafico-finalizados>
+        }
+    }
+
+
+</div>
